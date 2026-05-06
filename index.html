@@ -1,0 +1,1954 @@
+<!DOCTYPE html><html lang="en"><head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas of Care(full) Practices — Food Section</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@300;400;500;600&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../tweaks-panel.jsx"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2EC;
+    --bg2: #EDEAE2;
+    --ink: #1A1814;
+    --ink2: #4A4640;
+    --ink3: #7A756E;
+    --border: #D4CFC6;
+    --accent: #C85A1E;
+    --accent2: #2B5C3A;
+    --accent3: #1D3A6E;
+    --tag-bg: #E8E3D8;
+    --tag-border: #C4BDB0;
+    --radius: 4px;
+    --card-bg: #FDFAF5;
+    --font-sans: 'Barlow', sans-serif;
+    --font-serif: 'Barlow Semi Condensed', sans-serif;
+    --font-mono: 'Barlow Condensed', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .page-header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 40%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .header-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 0.75rem;
+  }
+  .header-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .header-title em { font-style: italic; color: #D4A96A; }
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    max-width: 520px;
+    line-height: 1.55;
+    margin-top: 0.75rem;
+  }
+  .header-meta {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-val { font-family: var(--font-mono); font-size: 22px; color: #D4A96A; line-height: 1; }
+  .meta-lbl { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.05em; }
+
+  .main-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .toolbar-group { display: flex; flex-direction: column; gap: 5px; }
+  .toolbar-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink3);
+  }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .fb {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: all 0.12s;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+  }
+  .fb:hover { background: var(--tag-bg); }
+  .fb.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .fb.active.type-A { background: #1D3A6E; border-color: #1D3A6E; }
+  .fb.active.type-B { background: #5C3D1E; border-color: #5C3D1E; }
+  .fb.active.type-C { background: #2B5C3A; border-color: #2B5C3A; }
+  .fb.active.p { background: var(--accent); border-color: var(--accent); }
+
+  .search-wrap { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 5px; }
+  #search-input {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+    width: 100%;
+  }
+  #search-input:focus { border-color: var(--accent); }
+
+  .result-bar {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink3);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .result-count { color: var(--ink); font-size: 13px; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--border);
+  }
+
+  .case-card {
+    background: var(--card-bg);
+    padding: 1.25rem;
+    transition: background 0.12s;
+    cursor: pointer;
+    position: relative;
+  }
+  .case-card:hover { background: #FFFDF7; }
+  .case-card.hidden { display: none; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    gap: 0.75rem;
+  }
+  .card-num { font-family: var(--font-mono); font-size: 11px; color: var(--ink3); flex-shrink: 0; margin-top: 2px; }
+  .card-badges { display: flex; flex-wrap: wrap; gap: 3px; justify-content: flex-end; }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .badge-A { background: #DDEAF7; color: #1D3A6E; }
+  .badge-B { background: #F5E8D4; color: #5C3D1E; }
+  .badge-C { background: #D8EEE0; color: #2B5C3A; }
+
+  .card-name { font-family: var(--font-serif); font-size: 17px; line-height: 1.25; color: var(--ink); margin-bottom: 3px; font-weight: 400; }
+  .card-geo { font-size: 11px; color: var(--ink3); font-family: var(--font-mono); margin-bottom: 0.6rem; }
+  .card-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; margin-bottom: 0.8rem; }
+  .card-section-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 4px;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 0.7rem; }
+  .ptag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    background: var(--tag-bg);
+    color: var(--ink2);
+    border-color: var(--tag-border);
+  }
+  .ptag.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .ptag.primary.p-ec { background: var(--accent2); border-color: var(--accent2); }
+  .ptag.primary.p-ic { background: var(--accent3); border-color: var(--accent3); }
+
+  .continuum-row { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .cont-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: #EDF3F0;
+    color: #2B5C3A;
+    border: 1px solid #B8D8C8;
+    font-family: var(--font-mono);
+  }
+
+  .alert-row {
+    font-size: 12px;
+    color: #8B4000;
+    background: #FEF3E8;
+    border: 1px solid #EDCFB0;
+    border-radius: var(--radius);
+    padding: 5px 9px;
+    margin-top: 4px;
+    line-height: 1.45;
+  }
+  .alert-row::before { content: '⚠ '; }
+
+  .card-footer {
+    margin-top: 0.8rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .doc-badge { font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 2px; letter-spacing: 0.05em; }
+  .doc-H { background: #D5EFDD; color: #1B4D27; }
+  .doc-M { background: #FFF0D0; color: #7A4800; }
+  .doc-L { background: #FFE5E5; color: #8B0000; }
+  .frame-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+  .frame-tag { font-size: 10px; padding: 1px 6px; border-radius: 2px; background: var(--bg2); color: var(--ink3); border: 1px solid var(--border); }
+
+  /* DETAIL PANEL */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.5);
+    z-index: 100;
+    backdrop-filter: blur(2px);
+  }
+  .detail-overlay.open { display: flex; align-items: flex-start; justify-content: flex-end; }
+  .detail-panel {
+    width: min(560px, 95vw);
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--card-bg);
+    border-left: 1px solid var(--border);
+    padding: 2rem 1.75rem 3rem;
+    position: relative;
+  }
+  .detail-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    color: var(--ink2);
+  }
+  .detail-close:hover { background: var(--border); }
+  .detail-num { font-family: var(--font-mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .detail-name { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.2; color: var(--ink); margin-bottom: 0.4rem; font-weight: 400; }
+  .detail-geo { font-family: var(--font-mono); font-size: 11px; color: var(--ink3); margin-bottom: 1.25rem; }
+  .detail-section { margin-bottom: 1.25rem; }
+  .detail-section-title {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 5px;
+    margin-bottom: 0.6rem;
+  }
+  .detail-body { font-size: 13px; color: var(--ink2); line-height: 1.65; }
+  .detail-body a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .detail-body a:hover { text-decoration: underline; }
+  .principle-grid { display: flex; flex-direction: column; gap: 8px; }
+  .p-row { display: grid; grid-template-columns: max-content 1fr; gap: 8px; align-items: flex-start; }
+  .p-pill { font-size: 10px; padding: 2px 8px; border-radius: 2px; white-space: nowrap; font-family: var(--font-mono); }
+  .p-pill.prim { background: var(--accent); color: #fff; }
+  .p-pill.sec { background: var(--tag-bg); color: var(--ink2); border: 1px solid var(--tag-border); }
+  .p-note { font-size: 12px; color: var(--ink2); line-height: 1.55; }
+
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    grid-column: 1 / -1;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--ink3);
+    font-style: italic;
+  }
+</style>
+<link id="gfont-Bebas-Neue" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Arvo" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arvo:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Manrope" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Fira-Sans" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&amp;display=swap"></head>
+<body data-new-gr-c-s-check-loaded="14.1286.0" data-gr-ext-installed="">
+
+<header class="page-header" style="background-color: rgb(136, 100, 138)">
+  <div class="header-label">Care(full) Design Framework — Food Section</div>
+  <h1 class="header-title">Atlas of <em>Care(full)</em> Practices</h1>
+  <p class="header-sub">49 documented cases of urban food welfare and food justice practices, organised by the 9 principles of the Ethics of Care — corpus under construction.</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-val">49</span><span class="meta-lbl">Documented cases</span></div>
+    <div class="meta-item"><span class="meta-val">22</span><span class="meta-lbl">Countries / contexts</span></div>
+    <div class="meta-item"><span class="meta-val">9</span><span class="meta-lbl">CE principles</span></div>
+    <div class="meta-item"><span class="meta-val">v4.0</span><span class="meta-lbl">April 2026</span></div>
+  </div>
+</header>
+
+<div class="main-wrap">
+  <div class="toolbar">
+    <div class="toolbar-group">
+      <div class="toolbar-label">CE Principles (primary)</div>
+      <div class="filter-row" id="filter-principi">
+        <button class="fb active" data-filter="all">All</button>
+        <button class="fb p" data-filter="cs">Contextual sensitivity</button>
+        <button class="fb p" data-filter="at">Attentiveness</button>
+        <button class="fb p" data-filter="cr">Collective responsibility</button>
+        <button class="fb p" data-filter="pc">Politics of care</button>
+        <button class="fb p" data-filter="rs">Responsiveness</button>
+        <button class="fb p" data-filter="sd">Self-determination</button>
+        <button class="fb p" data-filter="ec">Ecology of care</button>
+        <button class="fb p" data-filter="in">Interdependence</button>
+        <button class="fb p" data-filter="ic">Institutionalisation</button>
+      </div>
+    </div>
+    <div class="toolbar-group">
+      <div class="toolbar-label">Case type</div>
+      <div class="filter-row" id="filter-tipo">
+        <button class="fb active" data-tipo="all">All</button>
+        <button class="fb type-A" data-tipo="A">A — Documented practice</button>
+        <button class="fb type-B" data-tipo="B">B — Framework / Method</button>
+        <button class="fb type-C" data-tipo="C">C — Radical practice</button>
+      </div>
+    </div>
+    <div class="toolbar-group">
+      <div class="toolbar-label">Continuum</div>
+      <div class="filter-row" id="filter-cont">
+        <button class="fb active" data-cont="all">All</button>
+        <button class="fb" data-cont="assistentialist">Assistentialist</button>
+        <button class="fb" data-cont="enabling">Enabling</button>
+        <button class="fb" data-cont="transformative">Transformative</button>
+        <button class="fb" data-cont="rights">Rights-enacting</button>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <div class="toolbar-label">Search</div>
+      <input type="text" id="search-input" placeholder="name, place, tag…">
+    </div>
+  </div>
+
+  <div class="result-bar">
+    <span id="result-count" class="result-count">49 cases</span>
+    <span id="filter-desc">· no active filters</span>
+  </div>
+
+  <div class="cards-grid" id="cards-grid"><div class="case-card" data-id="1">
+      <div class="card-top">
+        <span class="card-num">#01</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Il Frigo di Quartiere</div>
+      <div class="card-geo">Turin, Italy · 2022–present</div>
+      <div class="card-desc">A network of shared refrigerators placed in pre-existing community spaces across Turin, managed by a coalition of third-sector organisations co-designed with Nova Coop. Moves beyond the charity model …</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Interdependence</span><span class="ptag">Contextual sensitivity</span><span class="ptag">Responsiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Partial care-washing risk: public narrative centres on Nova Coop's generosity rather than recipients' rights.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">proximity welfare</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="2">
+      <div class="card-top">
+        <span class="card-num">#02</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">Fruit Are Heavy</div>
+      <div class="card-geo">Atlanta, Georgia, USA · 2015–2019</div>
+      <div class="card-desc">A public IoT prototype by Georgia Tech (Carl DiSalvo) using low-cost sensors on urban fruit trees to detect ripeness and optimise foraging for food redistribution with Concrete Jungle nonprofit. Theor…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag">Politics of care</span><span class="ptag">Contextual sensitivity</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (implicit)</span><span class="frame-tag">civic care</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="3">
+      <div class="card-top">
+        <span class="card-num">#03</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-C">Radical practice</span></div>
+      </div>
+      <div class="card-name">Ghetto Gastro</div>
+      <div class="card-geo">Bronx, New York, USA · 2012–present</div>
+      <div class="card-desc">A multidimensional culinary collective born in the Bronx: underground dinners, commercial food products (CRUXGG line in Target), education and mutual aid during Covid. 'Everybody eats' as mission. Foo…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span><span class="ptag">Contextual sensitivity</span><span class="ptag">Attentiveness</span><span class="ptag">Ecology of care</span><span class="ptag">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span><span class="cont-tag">Rights-enacting</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (explicit)</span><span class="frame-tag">food sovereignty (implicit)</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="4">
+      <div class="card-top">
+        <span class="card-num">#04</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">CARE — Cargobike Action for Rescuing Edibles</div>
+      <div class="card-geo">Milan, Italy · 2024–2025</div>
+      <div class="card-desc">A logistics service collecting food surplus from school canteens via cargo bikes, redistributing to local organisations. Part of the European CULTIVATE project (Horizon Europe). SoDe – Social Delivery…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Interdependence</span><span class="ptag">Contextual sensitivity</span><span class="ptag">Attentiveness</span><span class="ptag">Institutionalisation</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit)</span><span class="frame-tag">anti-waste</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="5">
+      <div class="card-top">
+        <span class="card-num">#05</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">Disco Soup / World Disco Soup Day</div>
+      <div class="card-geo">Berlin → 40+ countries · 2012–present</div>
+      <div class="card-desc">A global event-format: collective gathering, cooking and eating of 'rescued' food accompanied by music. The Schnippeldisko began as a protest-soup against retail food waste standards. Replicable in 6 …</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag">Collective responsibility</span><span class="ptag">Self-determination</span><span class="ptag">Politics of care</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">De-politicisation risk: the festive format can eclipse the protest dimension against retail giants and EU policy.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (indirect)</span><span class="frame-tag">agroecology (partial)</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="6">
+      <div class="card-top">
+        <span class="card-num">#06</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">Social Gastronomy Movement</div>
+      <div class="card-geo">Global (Brazil / Davos) · 2018–present</div>
+      <div class="card-desc">A global network of 400+ NGOs in 70+ countries using food as a tool for social change, founded by David Hertz (Gastromotiva, 2006). Solidarity kitchens, culinary training for favela youth, 100,000+ pe…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span><span class="ptag">Collective responsibility</span><span class="ptag">Contextual sensitivity</span><span class="ptag">Institutionalisation</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Structural tension: partnership with Cargill and WEF launch pose a risk of corporate care-washing.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">food justice (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="7">
+      <div class="card-top">
+        <span class="card-num">#07</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Ruben — Solidarity Restaurant</div>
+      <div class="card-geo">Milan, Italy (Giambellino) · 2014–present</div>
+      <div class="card-desc">Fondazione Pellegrini's self-service restaurant: up to 350 covers/evening at €1 for people in temporary economic difficulty, in a curated environment with art on the walls. Deliberately refuses surplu…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary">Responsiveness</span><span class="ptag">Contextual sensitivity</span><span class="ptag">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Minor risk: narrative centres on the Pellegrini family's generosity rather than recipients' rights.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">right to adequate food (explicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="8">
+      <div class="card-top">
+        <span class="card-num">#08</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Community Cooking — Caritas Wien</div>
+      <div class="card-geo">Vienna, Austria (Favoriten) · 2015–present</div>
+      <div class="card-desc">Fixed + mobile community kitchen at the Brotfabrik cultural house in Favoriten. Training programmes (Jamie's Ministry of Food), intercultural exchange and integration. The mobile kitchen brings the sp…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Interdependence</span><span class="ptag">Collective responsibility</span><span class="ptag">Attentiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (indirect)</span><span class="frame-tag">intercultural integration</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="9">
+      <div class="card-top">
+        <span class="card-num">#09</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Sistema Solidando — IBVA</div>
+      <div class="card-geo">Milan, Italy · 2016–present</div>
+      <div class="card-desc">Integrated food welfare system: 2 Social Markets (solidarity supermarkets with points cards), Panificando (social bakery), Panificando Kitchen (kitchen using near-expiry products), City Hub. Earthshot…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Responsiveness</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span><span class="ptag primary p-ic">Institutionalisation</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Partial care-washing: IBVA narrative centres on the founder's generosity (est. 1801) rather than recipients' rights.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit)</span><span class="frame-tag">dignity</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="10">
+      <div class="card-top">
+        <span class="card-num">#10</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Dispensa Sociale + Dispensa Re-Store</div>
+      <div class="card-geo">Bergamo, Italy · 2019–present</div>
+      <div class="card-desc">Dual system: Dispensa Sociale (surplus recovery from retail + redistribution to 60 organisations) and Re-Store (direct access with no documentation required, Mon–Thu 17:00–19:00). People with disabili…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag">Contextual sensitivity</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span><span class="cont-tag">Transformative</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit)</span><span class="frame-tag">anti-waste</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="11">
+      <div class="card-top">
+        <span class="card-num">#11</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-C">Radical practice</span></div>
+      </div>
+      <div class="card-name">RECUP</div>
+      <div class="card-geo">Milan / Rome, Italy · 2016–present</div>
+      <div class="card-desc">Association recovering unsold food at the end of market trading in urban street markets (21 markets + Milan wholesale market) and distributing it freely. National petition for structural legislation. …</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span><span class="cont-tag">Rights-enacting</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (implicit)</span><span class="frame-tag">right to adequate food (implicit in petition)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="12">
+      <div class="card-top">
+        <span class="card-num">#12</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Phenix</div>
+      <div class="card-geo">Paris, France → 5 countries · 2014–present</div>
+      <div class="card-desc">B2B digital platform (Phenix Connect) connecting 16,000 stores with 3,000+ associations for surplus redistribution. Consumer anti-waste app. 75M meals saved, 190K tonnes CO2. B-Corp + ESUS certified. …</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Interdependence</span><span class="ptag primary">Responsiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Assistentialist</span><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Amplification of distances risk: automated logistics reduces human contact between donors and recipients.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (indirect)</span><span class="frame-tag">sustainability</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="13">
+      <div class="card-top">
+        <span class="card-num">#13</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Banques Alimentaires (FFBA)</div>
+      <div class="card-geo">France (79 branches) · 1984–present</div>
+      <div class="card-desc">National federated network of 79 organisations collecting and redistributing to 6,044 partner associations. 'Contrats Solidaires' programme with Danone, Bonduelle, Barilla, Nestlé. 2.4 million benefic…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Interdependence</span><span class="ptag primary">Responsiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Assistentialist</span></div>
+      <div class="alert-row">Conflict invisibilisation risk: treats food poverty as a logistics problem without interrogating the structures producing surplus and need.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">fight against food precarity</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="14">
+      <div class="card-top">
+        <span class="card-num">#14</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Conflict Kitchen</div>
+      <div class="card-geo">Pittsburgh, Pennsylvania, USA · 2010–2017</div>
+      <div class="card-desc">An artistic take-out restaurant serving exclusively the cuisine of countries with which the USA was in conflict (Iran, Afghanistan, Cuba, Palestine, North Korea, Iroquois Nation), with wrappers contai…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Exoticisation risk: foreign cuisine as an object of curiosity for American university audiences.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (implicit)</span><span class="frame-tag">food sovereignty (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="15">
+      <div class="card-top">
+        <span class="card-num">#15</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">NHS Healthy Start</div>
+      <div class="card-geo">England, Wales &amp; Northern Ireland, UK · 2006–present</div>
+      <div class="card-desc">Government food voucher scheme (£4.25–8.50/week) loaded onto a prepaid card for low-income families during pregnancy or with children under 4. Statutory right within the British welfare state. 80+ yea…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Low uptake (55% in some areas): eligible families unaware of entitlement — exclusion by design.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">right to adequate food (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="16">
+      <div class="card-top">
+        <span class="card-num">#16</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Cucine Popolari — Bologna</div>
+      <div class="card-geo">Bologna, Italy (4 sites) · 2015–present</div>
+      <div class="card-desc">Network of 4 community kitchens open Mon–Thu providing free hot meals while fighting loneliness. 659 volunteers, 500 active every day. Open to anyone who wants to eat together with a free contribution…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Interdependence</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag">Institutionalisation</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Partial care-washing: total dependency on unpaid volunteering is a structural limit no philanthropic narrative can resolve.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit)</span><span class="frame-tag">fighting loneliness</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="17">
+      <div class="card-top">
+        <span class="card-num">#17</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">Free Breakfast — Black Panther Party</div>
+      <div class="card-geo">Oakland, CA → 36 US cities · 1969–1980</div>
+      <div class="card-desc">Founding historical case: free breakfast before school in Black urban neighbourhoods. First programme 20 January 1969. Fed more poor children than the State of California in 1969. The FBI called it 't…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Interdependence</span><span class="ptag">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Decontextualisation risk: citing it only as a 'mutual aid model' without the radical political frame (Black liberation, COINTELPRO) distorts…</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (explicit)</span><span class="frame-tag">food sovereignty (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="18">
+      <div class="card-top">
+        <span class="card-num">#18</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">FoodForward SA + Food Gardens Connect</div>
+      <div class="card-geo">South Africa → 9 provinces · 2009–present</div>
+      <div class="card-desc">Africa's largest foodbank: 935,000 people reached, R0.50/meal, 2,500 Beneficiary Organisations. FGC (2024): community gardens with guaranteed buy-back — communities produce and earn income. FoodShare:…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Attentiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Assistentialist</span><span class="cont-tag">Enabling</span><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Conflict invisibilisation risk: the anti-waste frame can obscure the political dimension of food inequality tied to post-apartheid land dist…</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">food sovereignty (emerging via FGC)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="19">
+      <div class="card-top">
+        <span class="card-num">#19</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">The Food Bank Singapore</div>
+      <div class="card-geo">Singapore · 2012–present</div>
+      <div class="card-desc">Singapore's only GFN-accredited foodbank: Mobile Food Pantry with 24/7 vending machine, Meals Forward, Juniors Club, The Hunger Report (which challenged the official narrative of zero food poverty). 1…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Interdependence</span><span class="ptag primary">Contextual sensitivity</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Assistentialist</span><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Moderate amplification of distances risk: technology can remove the direct human contact between donors and recipients.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">food sustainability</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="20">
+      <div class="card-top">
+        <span class="card-num">#20</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">The Food Project</div>
+      <div class="card-geo">Greater Boston, Massachusetts, USA · 1991–present</div>
+      <div class="card-desc">70+ acres of urban and suburban farms, 140 teenagers per year, 3 SNAP-accessible farmers markets, Build-a-Garden, Greenhouse. Intentional diversity of the group (Lincoln suburb vs Roxbury city). Prece…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Attentiveness</span><span class="ptag">Ecology of care</span><span class="ptag">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (explicit)</span><span class="frame-tag">food sovereignty (partial)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="21">
+      <div class="card-top">
+        <span class="card-num">#21</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-C">Radical practice</span></div>
+      </div>
+      <div class="card-name">Keep Growing Detroit (KGD)</div>
+      <div class="card-geo">Detroit, Michigan, USA · 2013–present</div>
+      <div class="card-desc">Urban food sovereignty organisation: 2,200+ community, family and school gardens and farms; Grown in Detroit (farmers' marketing cooperative); Detroit Black Farmer Land Fund (2020). Mission: the major…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Self-determination</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag">Collective responsibility</span><span class="ptag">Interdependence</span><span class="ptag">Politics of care</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Carbon footprint of urban farming (UM study 2024): the ecological narrative is more complex than commonly assumed.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">food justice (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="22">
+      <div class="card-top">
+        <span class="card-num">#22</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">AgroFavela Refazenda</div>
+      <div class="card-geo">Paraisópolis, São Paulo, Brazil · 2020–present</div>
+      <div class="card-desc">Community urban garden on 900 m² in the concrete pavilion of São Paulo's largest favela (100,000+ inhabitants). 60+ species, 284 women trained in 2021. 'FAVELA É AGRO' campaign with 850 m² outdoor bil…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Care-washing risk: Sodexo partnership (multinational) risks instrumentalising the project for corporate CSR.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (implicit)</span><span class="frame-tag">food security (partial)</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="23">
+      <div class="card-top">
+        <span class="card-num">#23</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">The Stop Community Food Centre</div>
+      <div class="card-geo">Toronto, Canada · 1982–present</div>
+      <div class="card-desc">Transformed in 1998 from a traditional food bank into a Community Food Centre: integrates food bank + kitchens + urban gardens + peer advocacy + perinatal programmes + political advocacy. Inspired Com…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Self-determination</span><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Contextual sensitivity</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Rights-enacting</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (explicit)</span><span class="frame-tag">right to adequate food (explicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="24">
+      <div class="card-top">
+        <span class="card-num">#24</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Nourish Hub</div>
+      <div class="card-geo">London, UK (Shepherd's Bush) · 2022–present</div>
+      <div class="card-desc">Community kitchen in a repurposed post office designed by RCKa architects through extensive co-design. 'Donate as you dine' model: everyone eats together, each contributing what they can. Daily meals …</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security</span><span class="frame-tag">food justice (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="25">
+      <div class="card-top">
+        <span class="card-num">#25</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Alle 8 a Cena — Scomodo</div>
+      <div class="card-geo">Milan, Italy (Turro / Martesana) · 2025–present</div>
+      <div class="card-desc">Daily community dinner (every evening at 8pm) at Scomodo's EastRiver Martesana space (1,500 m²). Single seasonal dish for €4, local ingredients, zero waste. 'First you bring people together to nourish…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Does not reach the most vulnerable (€4 is not free). Low documentability (project launched Nov 2025).</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (partial)</span><span class="frame-tag">food as urban community-building</span></div>
+        <span class="doc-badge doc-L">Doc L</span>
+      </div></div><div class="case-card" data-id="26">
+      <div class="card-top">
+        <span class="card-num">#26</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-C">Radical practice</span></div>
+      </div>
+      <div class="card-name">ReFoodGees — Roma SalvaCibo</div>
+      <div class="card-geo">Rome, Italy (Esquilino) · 2017–present</div>
+      <div class="card-desc">Recovers unsold food from Rome's street markets and redistributes it freely. 'Ai Fornelli' component: paid migrant women cook dishes from recovered food for homeless people. Refugees as co-protagonist…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag">Contextual sensitivity</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (implicit)</span><span class="frame-tag">anti-waste</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="27">
+      <div class="card-top">
+        <span class="card-num">#27</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span><span class="badge badge-B">Framework / Method</span></div>
+      </div>
+      <div class="card-name">Incredible Edible Todmorden</div>
+      <div class="card-geo">Todmorden, UK → 700+ groups globally · 2008–present</div>
+      <div class="card-desc">Guerrilla gardening movement across 70 public sites without permission. 'If you eat, you're in.' 57% of residents started growing food. Pam Warhurst TED talk (3M+ views). Global network of 700+ groups…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Decontextualisation risk: the model depends on specific local conditions not easily replicable.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (implicit)</span><span class="frame-tag">food commons</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="28">
+      <div class="card-top">
+        <span class="card-num">#28</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Beacon Food Forest</div>
+      <div class="card-geo">Beacon Hill, Seattle, Washington, USA · 2012–present</div>
+      <div class="card-desc">The largest public food forest in the USA: 7 acres of permacultural agroforestry on Seattle Public Utilities land. Open harvest for anyone. Private P-Patch plots. Indigenous medicinal garden 'sust'alj…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span><span class="ptag primary">Collective responsibility</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Romanticisation risk: the food forest model requires years of investment before producing significant food.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (implicit)</span><span class="frame-tag">food justice (explicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="29">
+      <div class="card-top">
+        <span class="card-num">#29</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Soul Fire Farm</div>
+      <div class="card-geo">Grafton, New York, USA · 2006–present</div>
+      <div class="card-desc">A 72-acre BIPOC-centric farm. Sliding-scale CSA (Ujaama model). 350+ BIPOC farmers trained. Book 'Farming While Black' (James Beard Award 2019). Uses the term 'food apartheid' instead of 'food desert'…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary p-ec">Ecology of care</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Decontextualisation risk: works within the specific context of Black liberation in the USA with its history of enslavement and USDA discrimi…</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (explicit)</span><span class="frame-tag">food sovereignty (explicit, Via Campesina)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="30">
+      <div class="card-top">
+        <span class="card-num">#30</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">SOUL Food Project EU</div>
+      <div class="card-geo">Europe (Erasmus+ transnational) · 2023–2025</div>
+      <div class="card-desc">Erasmus+ project using culinary skills as a tool for social and professional integration of migrant women. Modular curriculum of food and digital literacy. Partners across multiple EU countries.</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary p-ic">Institutionalisation</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">NOTE: soulfoodproject.eu (Erasmus+) must be distinguished from Soul Food Project Indianapolis and Soul Food Project Massachusetts USA.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit)</span><span class="frame-tag">integration</span></div>
+        <span class="doc-badge doc-L">Doc L</span>
+      </div></div><div class="case-card" data-id="31">
+      <div class="card-top">
+        <span class="card-num">#31</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Botildenborg — Urban Farm &amp; Stadsbruk</div>
+      <div class="card-geo">Rosengård, Malmö, Sweden · 2011–present</div>
+      <div class="card-desc">Urban farm in Malmö's most marginalised neighbourhood (88% residents born abroad). Stadsbruk: Europe's first incubator for urban farmers. Living Lab partnership with SLU Alnarp. Cook, Eat and Talk: ha…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Interdependence</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (partial)</span><span class="frame-tag">social gastronomy</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="32">
+      <div class="card-top">
+        <span class="card-num">#32</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Indigenous Food Lab (IFL) — NĀTIFS</div>
+      <div class="card-geo">Minneapolis, Minnesota, USA · 2017–present</div>
+      <div class="card-desc">Professional Indigenous cuisine centre founded by Sean Sherman (Oglala Lakota Sioux). Restaurant Owamni (James Beard Best New Restaurant 2022). Curriculum of Indigenous foodways. 'By reconnecting Nati…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Attentiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Cultural appropriation risk: Indigenous foodways must not become a 'gastronomic trend'.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit, radical)</span><span class="frame-tag">food justice (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="33">
+      <div class="card-top">
+        <span class="card-num">#33</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">The Okra Project</div>
+      <div class="card-geo">New York City → national · 2018–present</div>
+      <div class="card-desc">Mutual aid collective sending Black Trans chefs into the homes of Black Trans people to cook free, culturally specific home meals. 'This is not a soup kitchen or a bread line.' The meal cooked by some…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">CRITICAL ALERT — GOVERNANCE: Dominique Morgan (ED 2021–2022) indicted for embezzlement of $163k. Must be named without using it to invalidat…</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (explicit)</span><span class="frame-tag">food security (implicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="34">
+      <div class="card-top">
+        <span class="card-num">#34</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Queer Soup Night</div>
+      <div class="card-geo">Brooklyn, NY → 14+ cities USA/Canada · 2017–present</div>
+      <div class="card-desc">Network of queer supper clubs as fundraisers for local progressive organisations. Queer chefs cook soup; entry with suggested donation ($10–20); 100% of proceeds to a locally chosen organisation. Alco…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Interdependence</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (implicit)</span><span class="frame-tag">community building</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="35">
+      <div class="card-top">
+        <span class="card-num">#35</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Mariposas Rebeldes</div>
+      <div class="card-geo">Atlanta, Georgia, USA (Muscogee land) · 2020–present</div>
+      <div class="card-desc">Non-hierarchical QTIPOC collective of gardening and land stewardship guided by Indigenous and Latinx leadership. Community garden (100+ participants), pre-colonial workshops (nixtamalisation, foraging…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Politics of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Limited documentability: informal collective without a stable website. The 2020 eviction shows the vulnerability of not owning land.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">food justice (explicit)</span></div>
+        <span class="doc-badge doc-L">Doc L</span>
+      </div></div><div class="case-card" data-id="36">
+      <div class="card-top">
+        <span class="card-num">#36</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Tribal Elder Food Box Program</div>
+      <div class="card-geo">Wisconsin, USA (11 Tribal Nations) · 2021–present</div>
+      <div class="card-desc">Monthly culturally specific food boxes for tribal elders (55+): bison, hand-harvested wild rice, seasonal fresh produce, Indigenous shelf-stable products. 'Whenever you eat an Indigenous food, it spea…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Federal funding uncertainty 2025 (Trump USDA cuts). Structural dependency is a concern.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">right to culturally appropriate food</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="37">
+      <div class="card-top">
+        <span class="card-num">#37</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">L'Otto in Cucina 2.0</div>
+      <div class="card-geo">Rome, Italy (Municipio VIII) · 2025</div>
+      <div class="card-desc">Municipal initiative (Rome's Municipio VIII) on food education and food welfare, disseminating recipes and food resources through the Municipality's social media channels.</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Assistentialist</span><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">CASE SHEET TO COMPLETE before publication — only Instagram as source. Digital divide: social media does not reach the most vulnerable.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit)</span><span class="frame-tag">food education</span></div>
+        <span class="doc-badge doc-L">Doc L</span>
+      </div></div><div class="case-card" data-id="38">
+      <div class="card-top">
+        <span class="card-num">#38</span>
+        <div class="card-badges"><span class="badge badge-B">Framework / Method</span><span class="badge badge-C">Radical practice</span></div>
+      </div>
+      <div class="card-name">Feminist Agroecology (framework)</div>
+      <div class="card-geo">Transnational · 2019–present</div>
+      <div class="card-desc">Theoretical-political framework integrating agroecology + intersectional feminisms + food sovereignty. Roots: La Via Campesina (2001), Nyéleni Declaration (2007). 'Feminist practices nurture a spiderw…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Politics of care</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">CASE SHEET TO COMPLETE: Instagram source unverified. Compiled on the basis of academic literature.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">food justice (explicit, intersectional)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="39">
+      <div class="card-top">
+        <span class="card-num">#39</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Migre Rete</div>
+      <div class="card-geo">Italy (location to verify) · To verify</div>
+      <div class="card-desc">Network or project in the field of food education, empowerment and/or food integration for migrants/refugees in Italy. DRAFT SHEET — to be completed with primary source.</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Collective responsibility</span><span class="ptag">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">CRITICAL METHODOLOGICAL ALERT: draft sheet to be completed with primary source. Content not verified.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (to verify)</span><span class="frame-tag">migrant empowerment</span></div>
+        <span class="doc-badge doc-L">Doc L</span>
+      </div></div><div class="case-card" data-id="40">
+      <div class="card-top">
+        <span class="card-num">#40</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Fattoria del Dono</div>
+      <div class="card-geo">San Lazzaro di Savena (BO), Italy · 2021–2025 (inaugurated Apr 2025)</div>
+      <div class="card-desc">10-hectare agri-park donated by Stella Corazza to the Municipality. Renovated barn. ATI: Campi Aperti + Agriverde + DEAFAL + Cittàcampagna. CSA, Recovery College in agriculture, inclusion of vulnerabl…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">Inaugurated only April 2025: concrete activities in early stages. To be updated with impact data.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (implicit, via Emporio Amalio)</span><span class="frame-tag">food sovereignty (implicit, via CSA)</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="41">
+      <div class="card-top">
+        <span class="card-num">#41</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Andria Food Policy Hub (AFPH)</div>
+      <div class="card-geo">Andria (BAT), Puglia, Italy · 2023–present</div>
+      <div class="card-desc">Physical food governance hub in the repurposed San Francesco Cloister, financed by Puglia Region ERDF funds. Spazio Terre APS. Food Council, unanimously approved food charter, farmers market, GAS (sol…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Responsiveness</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Interdependence</span><span class="ptag primary p-ec">Ecology of care</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Very recent project (launched 2023–2024). Dependency on ERDF funding and political continuity.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">local food policy</span><span class="frame-tag">food sovereignty (implicit, via short supply chain)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="42">
+      <div class="card-top">
+        <span class="card-num">#42</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Rete Semi Rurali (RSR)</div>
+      <div class="card-geo">Scandicci (FI) → national → ECLLD · 7+ years</div>
+      <div class="card-desc">Network of 42 associations for the protection of agricultural biodiversity. Evolutionary Participatory Selection (SEP). '700 grains' pasta project, SELIANTHUS. Tuscany Region recognition. 'Seeds as a …</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Responsiveness</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">ecology of food</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="43">
+      <div class="card-top">
+        <span class="card-num">#43</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Cresco — CSA Valle Varaita</div>
+      <div class="card-geo">Valle Varaita (Cuneo), Piedmont, Italy · 2020–present</div>
+      <div class="card-desc">CSA in Valle Varaita on 7,500 m² of gardens between 500 and 900 metres altitude. 85 member families. Annual auction (price emerges from the community). 120 rotational varieties. Partner chef Juri Chio…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Interdependence</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      <div class="alert-row">The CSA model does not reach families in acute food insecurity — upfront annual payment is a structural economic barrier.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (implicit)</span><span class="frame-tag">solidarity economy</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="44">
+      <div class="card-top">
+        <span class="card-num">#44</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">CORE — Cultivating Resilience (Burkina Faso)</div>
+      <div class="card-geo">Pabré / Ouagadougou, Burkina Faso · ongoing</div>
+      <div class="card-desc">Two Italian development cooperation projects for peri-urban food security: CORE (WeWorld + DEAFAL, ~200 families/1,370 people in Pabré) and 'Feeding the City' (ACRA, 42 months 2023–2026). Drip irrigat…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Responsiveness</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary">Interdependence</span><span class="ptag primary p-ec">Ecology of care</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Burkina Faso in deep political crisis since 2022 (double military coup). Operational context extremely difficult.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (explicit, SDG2)</span><span class="frame-tag">right to adequate food (implicit)</span></div>
+        <span class="doc-badge doc-M">Doc M</span>
+      </div></div><div class="case-card" data-id="45">
+      <div class="card-top">
+        <span class="card-num">#45</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Jigeenyi — Social Bar &amp; Restaurant</div>
+      <div class="card-geo">Turin, Italy (Borgo Dora / Balon) · 2021–present</div>
+      <div class="card-desc">Arci club with a social bar-restaurant, African and Afro-descendant cuisines. 20+ African and Middle Eastern women trained (Senegal, Congo, Morocco, Gambia, Colombia, Iran). 'Jigeenyi' = 'Women' in Wo…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Contextual sensitivity</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Enabling</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food justice (implicit, decolonial)</span><span class="frame-tag">social gastronomy</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="46">
+      <div class="card-top">
+        <span class="card-num">#46</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Seikatsu Club Consumers Co-operative</div>
+      <div class="card-geo">Tokyo → 21 Japanese prefectures · 1965–present</div>
+      <div class="card-desc">Federation of 33 co-operatives (307,000–400,000 members, 90%+ women) organised in han units (8–10 families). Co-ownership of farms, 790 audits by 6,500 members. Workers' collectives. 140+ elected repr…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span><span class="ptag primary p-ec">Ecology of care</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Economic barrier (annual fee $1,000–2,000) excludes the poorest families. Japanese cultural context not easily replicable.</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">solidarity economy</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="47">
+      <div class="card-top">
+        <span class="card-num">#47</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Belo Horizonte Food Security Programme</div>
+      <div class="card-geo">Belo Horizonte, Brazil · 1993–present</div>
+      <div class="card-desc">Integrated municipal food security system with 20+ programmes: Restaurantes Populares (meal from R$0.75–3, open to ALL citizens), free public space at farmers markets, urban gardens, public procuremen…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary p-ic">Institutionalisation</span><span class="ptag primary">Politics of care</span><span class="ptag primary">Responsiveness</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Attentiveness</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Rights-enacting</span></div>
+      <div class="alert-row">Political vulnerability: Bolsonaro government suspended many programmes (2019–2022).</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">right to adequate food (explicit and founding)</span><span class="frame-tag">food security (explicit)</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="48">
+      <div class="card-top">
+        <span class="card-num">#48</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Community Shop / Social Supermarket UK</div>
+      <div class="card-geo">UK (100+ locations) · 2013–present</div>
+      <div class="card-desc">'Social supermarket' / 'community pantry' model: surplus food at heavily discounted prices (30% of normal price or less) for low-income people through membership. TBBT (Manchester), FareShare, Solidar…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Attentiveness</span><span class="ptag primary">Responsiveness</span><span class="ptag primary">Self-determination</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary p-ic">Institutionalisation</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Assistentialist</span><span class="cont-tag">Enabling</span></div>
+      <div class="alert-row">Structural dependency on industrial surplus can incentivise overproduction. Food often processed and nutrient-poor. Does not challenge struc…</div>
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food security (explicit)</span><span class="frame-tag">waste reduction</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div><div class="case-card" data-id="49">
+      <div class="card-top">
+        <span class="card-num">#49</span>
+        <div class="card-badges"><span class="badge badge-A">Documented practice</span></div>
+      </div>
+      <div class="card-name">Arvaia — CSA Co-operative</div>
+      <div class="card-geo">Bologna, Italy (Parco Città Campagna) · 2013–present</div>
+      <div class="card-desc">Italy's first and largest CSA: 320+ members, 47 hectares of municipal land on lease, 75+ varieties. Annual auction. Integrated supply chain: Arvaia grain → Cenacchi mill → Iris pasta co-op → Brisa bak…</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row"><span class="ptag primary">Interdependence</span><span class="ptag primary">Contextual sensitivity</span><span class="ptag primary p-ec">Ecology of care</span><span class="ptag primary">Collective responsibility</span><span class="ptag primary">Self-determination</span></div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row"><span class="cont-tag">Transformative</span></div>
+      
+      <div class="card-footer">
+        <div class="frame-tags"><span class="frame-tag">food sovereignty (explicit)</span><span class="frame-tag">solidarity economy</span></div>
+        <span class="doc-badge doc-H">Doc H</span>
+      </div></div></div>
+</div>
+
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-panel" id="detail-panel">
+    <button class="detail-close" onclick="closeDetail()">✕ close</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<script>
+const PL = {
+  cs: 'Contextual sensitivity', at: 'Attentiveness', cr: 'Collective responsibility',
+  pc: 'Politics of care', rs: 'Responsiveness', sd: 'Self-determination',
+  ec: 'Ecology of care', in: 'Interdependence', ic: 'Institutionalisation'
+};
+const TL = { A: 'Documented practice', B: 'Framework / Method', C: 'Radical practice' };
+const CONTINUUM_LABELS = {
+  assistentialist: 'Assistentialist',
+  enabling: 'Enabling',
+  transformative: 'Transformative',
+  rights: 'Rights-enacting'
+};
+
+const cases = [
+  {id:1,name:"Il Frigo di Quartiere",geo:"Turin, Italy",period:"2022–present",tipo:"A",
+   desc:"A network of shared refrigerators placed in pre-existing community spaces across Turin, managed by a coalition of third-sector organisations co-designed with Nova Coop. Moves beyond the charity model through community co-management of access rules.",
+   prim:["cr","in"],sec:["cs","rs"],continuum:["enabling"],
+   frame:["food security","proximity welfare"],
+   pos:"Redistribution / access · Waste / recovery",
+   tags:["food sharing","anti-waste","food poverty","co-management","Turin","Nova Coop"],doc:"M",
+   alert:"Partial care-washing risk: public narrative centres on Nova Coop's generosity rather than recipients' rights.",
+   perche:"Exemplary case for CR (Collective responsibility): shows how a proximity infrastructure can redistribute the food care burden between market, third sector and community.",
+   fonti:["https://www.cartiera.to.it/il-progetto-frigo-di-quartiere/","https://im-patto.it/torino-circ-iv-v-vi-vii/"]
+  },
+  {id:2,name:"Fruit Are Heavy",geo:"Atlanta, Georgia, USA",period:"2015–2019",tipo:["A","B"],
+   desc:"A public IoT prototype by Georgia Tech (Carl DiSalvo) using low-cost sensors on urban fruit trees to detect ripeness and optimise foraging for food redistribution with Concrete Jungle nonprofit. Theorises 'tinkering-as-care'.",
+   prim:["at","ec"],sec:["pc","cs"],continuum:["transformative"],
+   frame:["food justice (implicit)","civic care","agroecology (partial)"],
+   pos:"Production · Redistribution / access · Waste / recovery",
+   tags:["IoT","urban foraging","design research","Atlanta","Concrete Jungle","civic tech"],doc:"H",
+   alert:null,
+   perche:"Exemplary for AT (Attentiveness) and EC (Ecology of care) in food welfare design research. The only case where technology is explicitly designed as a device of ecological care.",
+   fonti:["https://www.carldisalvo.com/portfolio/fruit-are-heavy","https://concrete-jungle.org/"]
+  },
+  {id:3,name:"Ghetto Gastro",geo:"Bronx, New York, USA",period:"2012–present",tipo:["A","C"],
+   desc:"A multidimensional culinary collective born in the Bronx: underground dinners, commercial food products (CRUXGG line in Target), education and mutual aid during Covid. 'Everybody eats' as mission. Food as Black cultural sovereignty.",
+   prim:["pc","cr","sd"],sec:["cs","at","ec","in"],continuum:["transformative","rights"],
+   frame:["food justice (explicit)","food sovereignty (implicit)"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["food justice","Black culture","Bronx","mutual aid","food sovereignty","hip-hop","activism"],doc:"M",
+   alert:null,
+   perche:"Exemplary for PC (Politics of care): food as an explicit terrain of political struggle and identity reclamation. 'Everybody eats' as a food sovereignty declaration.",
+   fonti:["https://ghettogastro.com","https://en.wikipedia.org/wiki/Ghetto_Gastro"]
+  },
+  {id:4,name:"CARE — Cargobike Action for Rescuing Edibles",geo:"Milan, Italy",period:"2024–2025",tipo:"A",
+   desc:"A logistics service collecting food surplus from school canteens via cargo bikes, redistributing to local organisations. Part of the European CULTIVATE project (Horizon Europe). SoDe – Social Delivery integrates dignified work for refugees.",
+   prim:["ec","cr","in"],sec:["cs","at","ic"],continuum:["enabling"],
+   frame:["food security (implicit)","anti-waste","proximity food welfare"],
+   pos:"Redistribution / access · Waste / recovery",
+   tags:["anti-waste","cargo bike","school canteens","redistribution","Milan","Horizon Europe","CULTIVATE"],doc:"M",
+   alert:null,
+   perche:"Exemplary for EC (Ecology of care) and IN (Interdependence): shows how sustainable mobility and food welfare can be co-designed into a coherent system.",
+   fonti:["https://www.so-de.it/","https://cultivate-project.eu/"]
+  },
+  {id:5,name:"Disco Soup / World Disco Soup Day",geo:"Berlin → 40+ countries",period:"2012–present",tipo:["A","B"],
+   desc:"A global event-format: collective gathering, cooking and eating of 'rescued' food accompanied by music. The Schnippeldisko began as a protest-soup against retail food waste standards. Replicable in 6 steps. Slow Food Youth Network cookbook.",
+   prim:["at","ec"],sec:["cr","sd","pc"],continuum:["enabling","transformative"],
+   frame:["food security (indirect)","agroecology (partial)","food as commons"],
+   pos:"Distribution · Waste / recovery · Consumption",
+   tags:["anti-waste","food waste","Slow Food Youth Network","Berlin","protest soup","music","transnational"],doc:"M",
+   alert:"De-politicisation risk: the festive format can eclipse the protest dimension against retail giants and EU policy.",
+   perche:"Exemplary for AT (Attentiveness) and EC (Ecology of care): pioneer in using the party as a political device of care ('protest soup'), replicable globally.",
+   fonti:["https://www.slowfood.com/events/world-disco-soup-day/","https://slowfoodyouthnetwork.org/actions/"]
+  },
+  {id:6,name:"Social Gastronomy Movement",geo:"Global (Brazil / Davos)",period:"2018–present",tipo:["A","B"],
+   desc:"A global network of 400+ NGOs in 70+ countries using food as a tool for social change, founded by David Hertz (Gastromotiva, 2006). Solidarity kitchens, culinary training for favela youth, 100,000+ people impacted.",
+   prim:["sd","in"],sec:["cr","cs","ic"],continuum:["enabling","transformative"],
+   frame:["food security","food justice (implicit)","social gastronomy"],
+   pos:"Multi-node (production, education, redistribution, consumption)",
+   tags:["social gastronomy","Gastromotiva","David Hertz","Brazil","solidarity kitchens","food education","global network"],doc:"H",
+   alert:"Structural tension: partnership with Cargill and WEF launch pose a risk of corporate care-washing.",
+   perche:"Exemplary for SD (Self-determination) and IN (Interdependence) at global scale. The most developed framework for thinking food as an instrument of social change.",
+   fonti:["https://www.socialgastronomy.org/","https://gastromotiva.org/en/"]
+  },
+  {id:7,name:"Ruben — Solidarity Restaurant",geo:"Milan, Italy (Giambellino)",period:"2014–present",tipo:"A",
+   desc:"Fondazione Pellegrini's self-service restaurant: up to 350 covers/evening at €1 for people in temporary economic difficulty, in a curated environment with art on the walls. Deliberately refuses surplus food — quality food as a declaration of dignity.",
+   prim:["at","rs"],sec:["cs","sd"],continuum:["rights"],
+   frame:["right to adequate food (explicit)"],
+   pos:"Redistribution / access · Consumption",
+   tags:["solidarity restaurant","dignity","food poverty","Milan","Fondazione Pellegrini","right to food","1 euro"],doc:"H",
+   alert:"Minor risk: narrative centres on the Pellegrini family's generosity rather than recipients' rights.",
+   perche:"Exemplary for AT (Attentiveness) and explicit right to adequate food declaration. One of Italy's most radical cases in rejecting surplus-as-welfare.",
+   fonti:["https://www.fondazionepellegrinionlus.it/ristorante-ruben/"]
+  },
+  {id:8,name:"Community Cooking — Caritas Wien",geo:"Vienna, Austria (Favoriten)",period:"2015–present",tipo:"A",
+   desc:"Fixed + mobile community kitchen at the Brotfabrik cultural house in Favoriten. Training programmes (Jamie's Ministry of Food), intercultural exchange and integration. The mobile kitchen brings the space into the neighbourhood, lowering access barriers.",
+   prim:["cs","in"],sec:["cr","at"],continuum:["enabling"],
+   frame:["food security (indirect)","intercultural integration","health"],
+   pos:"Consumption · Distribution",
+   tags:["community kitchen","mobile kitchen","Vienna","Favoriten","interculturalism","integration","Caritas","Brotfabrik"],doc:"M",
+   alert:null,
+   perche:"Exemplary for CS (Contextual sensitivity) and IN (Interdependence): the kitchen as a 'Möglichkeitsraum' (space of possibilities) for intercultural integration.",
+   fonti:["https://www.caritas-stadtteilarbeit.at/projekte/alle-projekte/community-cooking/","https://www.brotfabrik.wien/en/eat-drink/community-cooking.html"]
+  },
+  {id:9,name:"Sistema Solidando — IBVA",geo:"Milan, Italy",period:"2016–present",tipo:"A",
+   desc:"Integrated food welfare system: 2 Social Markets (solidarity supermarkets with points cards), Panificando (social bakery), Panificando Kitchen (kitchen using near-expiry products), City Hub. Earthshot Prize 2021.",
+   prim:["cs","rs","sd","in","ic"],sec:[],continuum:["enabling"],
+   frame:["food security (implicit)","dignity","anti-waste"],
+   pos:"Redistribution / access · Waste / recovery · Consumption",
+   tags:["social market","solidarity store","social bakery","Milan","IBVA","points card","dignity","Earthshot Prize"],doc:"H",
+   alert:"Partial care-washing: IBVA narrative centres on the founder's generosity (est. 1801) rather than recipients' rights.",
+   perche:"Exemplary for CS (Contextual sensitivity) and SD (Self-determination): the supermarket format as a design of dignity. The Italian case closest to a complete food welfare ecosystem.",
+   fonti:["https://ibva.it/solidando/"]
+  },
+  {id:10,name:"Dispensa Sociale + Dispensa Re-Store",geo:"Bergamo, Italy",period:"2019–present",tipo:"A",
+   desc:"Dual system: Dispensa Sociale (surplus recovery from retail + redistribution to 60 organisations) and Re-Store (direct access with no documentation required, Mon–Thu 17:00–19:00). People with disabilities as agents of recovery — a radical inversion of the carer/cared-for relationship.",
+   prim:["in","cr","sd","ec"],sec:["cs"],continuum:["enabling","transformative"],
+   frame:["food security (implicit)","anti-waste","food justice (partial, via Food Pride Italia)"],
+   pos:"Redistribution / access · Waste / recovery · Multi-node",
+   tags:["social pantry","Re-Store","anti-waste","disability inclusion","Bergamo","Namaste","universal access","volunteering"],doc:"M",
+   alert:null,
+   perche:"Exemplary for IN (Interdependence) and SD (Self-determination): Re-Store as a model of universal access with no documentary barriers. People with disabilities as agents of recovery.",
+   fonti:["https://dispensasociale.coopnamaste.it/","https://dispensasociale.coopnamaste.it/restore/"]
+  },
+  {id:11,name:"RECUP",geo:"Milan / Rome, Italy",period:"2016–present",tipo:["A","C"],
+   desc:"Association recovering unsold food at the end of market trading in urban street markets (21 markets + Milan wholesale market) and distributing it freely. National petition for structural legislation. Those who help with recovery have the right to a share of the food saved.",
+   prim:["pc","ec","cr","at"],sec:["sd"],continuum:["transformative","rights"],
+   frame:["food justice (implicit)","right to adequate food (implicit in petition)"],
+   pos:"Redistribution / access · Waste / recovery",
+   tags:["street markets","recovery","anti-waste","legislative petition","Milan","Rome","inclusive volunteering","claims-making"],doc:"H",
+   alert:null,
+   perche:"Exemplary for PC (Politics of care) and CR (Collective responsibility): Italy's most explicit case of claims-making in food welfare. The petition transforms informal practice into structural demand.",
+   fonti:["https://associazionerecup.org/","https://associazionerecup.org/petizione/"]
+  },
+  {id:12,name:"Phenix",geo:"Paris, France → 5 countries",period:"2014–present",tipo:"A",
+   desc:"B2B digital platform (Phenix Connect) connecting 16,000 stores with 3,000+ associations for surplus redistribution. Consumer anti-waste app. 75M meals saved, 190K tonnes CO2. B-Corp + ESUS certified. Contributed to France's Garot Law 2016.",
+   prim:["ic","ec","in","rs"],sec:[],continuum:["assistentialist","enabling"],
+   frame:["food security (indirect)","sustainability","circular economy"],
+   pos:"Redistribution / access · Waste / recovery · Multi-node",
+   tags:["B2B platform","anti-waste","France","app","redistribution","B-Corp","ESUS","supermarkets"],doc:"H",
+   alert:"Amplification of distances risk: automated logistics reduces human contact between donors and recipients.",
+   perche:"Exemplary for IC (Institutionalisation) and EC (Ecology of care): digital platform scaling food redistribution nationally. Contribution to the Garot Law.",
+   fonti:["https://www.wearephenix.com/pro/en/"]
+  },
+  {id:13,name:"Banques Alimentaires (FFBA)",geo:"France (79 branches)",period:"1984–present",tipo:"A",
+   desc:"National federated network of 79 organisations collecting and redistributing to 6,044 partner associations. 'Contrats Solidaires' programme with Danone, Bonduelle, Barilla, Nestlé. 2.4 million beneficiaries. Public utility status 2023.",
+   prim:["ic","cr","in","rs"],sec:[],continuum:["assistentialist"],
+   frame:["food security","fight against food precarity"],
+   pos:"Redistribution / access · Waste / recovery",
+   tags:["food banks","France","redistribution","Collecte Nationale","volunteering","FEAD","institutionalisation","Contrats Solidaires"],doc:"H",
+   alert:"Conflict invisibilisation risk: treats food poverty as a logistics problem without interrogating the structures producing surplus and need.",
+   perche:"Exemplary for IC (Institutionalisation): Europe's most advanced benchmark for institutionalised food welfare with 40 years of history. Contrats Solidaires as a model for stable business-welfare partnerships.",
+   fonti:["https://www.banquealimentaire.org/"]
+  },
+  {id:14,name:"Conflict Kitchen",geo:"Pittsburgh, Pennsylvania, USA",period:"2010–2017",tipo:"A",
+   desc:"An artistic take-out restaurant serving exclusively the cuisine of countries with which the USA was in conflict (Iran, Afghanistan, Cuba, Palestine, North Korea, Iroquois Nation), with wrappers containing first-person testimonies. Closed after 7 years.",
+   prim:["pc","cr","at","cs"],sec:["in"],continuum:["transformative"],
+   frame:["food justice (implicit)","food sovereignty (implicit)","diplomatic inquiry"],
+   pos:"Consumption · Multi-node",
+   tags:["public art","food as political medium","Pittsburgh","empathy","Palestinian food","food diplomacy","Jon Rubin","Dawn Weleski"],doc:"H",
+   alert:"Exoticisation risk: foreign cuisine as an object of curiosity for American university audiences.",
+   perche:"Exemplary for PC (Politics of care) and AT (Attentiveness): artistic 'democratic inquiry' using food to build political empathy towards invisibilised cultures.",
+   fonti:["https://www.conflictkitchen.org/","https://en.wikipedia.org/wiki/Conflict_Kitchen"]
+  },
+  {id:15,name:"NHS Healthy Start",geo:"England, Wales & Northern Ireland, UK",period:"2006–present",tipo:["A","B"],
+   desc:"Government food voucher scheme (£4.25–8.50/week) loaded onto a prepaid card for low-income families during pregnancy or with children under 4. Statutory right within the British welfare state. 80+ years of history (Welfare Food Scheme 1940).",
+   prim:["ic","cs","at","sd"],sec:[],continuum:["rights"],
+   frame:["food security","right to adequate food (implicit)","public health"],
+   pos:"Redistribution / access · Consumption",
+   tags:["Healthy Start","NHS","food vouchers","UK","pregnancy","children","food security","welfare state","means-tested"],doc:"H",
+   alert:"Low uptake (55% in some areas): eligible families unaware of entitlement — exclusion by design.",
+   perche:"Exemplary for IC (Institutionalisation): the case closest to a model of 'right to adequate food' as institutional infrastructure in the UK.",
+   fonti:["https://www.healthystart.nhs.uk/","https://www.gov.uk/healthy-start"]
+  },
+  {id:16,name:"Cucine Popolari — Bologna",geo:"Bologna, Italy (4 sites)",period:"2015–present",tipo:"A",
+   desc:"Network of 4 community kitchens open Mon–Thu providing free hot meals while fighting loneliness. 659 volunteers, 500 active every day. Open to anyone who wants to eat together with a free contribution. 'One of the scarcer nutrients today is the web of relationships.'",
+   prim:["cs","in","cr","at"],sec:["ic"],continuum:["enabling"],
+   frame:["food security (implicit)","fighting loneliness","dignity","active citizenship"],
+   pos:"Redistribution / access · Consumption · Waste / recovery",
+   tags:["community kitchens","Bologna","solidarity canteen","volunteering","relationships","dignity","food recovery","CIVIBO","anti-waste","loneliness"],doc:"H",
+   alert:"Partial care-washing: total dependency on unpaid volunteering is a structural limit no philanthropic narrative can resolve.",
+   perche:"Exemplary for CS (Contextual sensitivity) and IN (Interdependence): the Italian case that most explicitly theorises care of relationships as the primary goal.",
+   fonti:["https://www.cucinepopolari.org/"]
+  },
+  {id:17,name:"Free Breakfast — Black Panther Party",geo:"Oakland, CA → 36 US cities",period:"1969–1980",tipo:["A","B"],
+   desc:"Founding historical case: free breakfast before school in Black urban neighbourhoods. First programme 20 January 1969. Fed more poor children than the State of California in 1969. The FBI called it 'the greatest threat' to the nation.",
+   prim:["pc","cr","at","in"],sec:["sd"],continuum:["transformative","rights"],
+   frame:["food justice (explicit)","food sovereignty (implicit)","Black liberation"],
+   pos:"Redistribution / access · Consumption",
+   tags:["Black Panthers","free breakfast","food justice","US history","mutual aid","race","Black liberation","politics of care","Oakland"],doc:"H",
+   alert:"Decontextualisation risk: citing it only as a 'mutual aid model' without the radical political frame (Black liberation, COINTELPRO) distorts its meaning.",
+   perche:"Founding historical case for PC (Politics of care) and CR (Collective responsibility) as radical food justice practice. Proves that feeding Black children autonomously is a politically subversive act.",
+   fonti:["https://en.wikipedia.org/wiki/Free_Breakfast_for_Children","https://blackpast.org/african-american-history/black-panther-partys-free-breakfast-program-1969-1980/"]
+  },
+  {id:18,name:"FoodForward SA + Food Gardens Connect",geo:"South Africa → 9 provinces",period:"2009–present",tipo:"A",
+   desc:"Africa's largest foodbank: 935,000 people reached, R0.50/meal, 2,500 Beneficiary Organisations. FGC (2024): community gardens with guaranteed buy-back — communities produce and earn income. FoodShare: digital redistribution platform.",
+   prim:["in","sd","cs","at"],sec:[],continuum:["assistentialist","enabling","transformative"],
+   frame:["food security","food sovereignty (emerging via FGC)"],
+   pos:"Production (FGC) · Redistribution / access · Waste / recovery · Multi-node",
+   tags:["foodbank","food rescue","South Africa","food security","food gardens","community gardens","buy-back","empowerment","Khayelitsha"],doc:"H",
+   alert:"Conflict invisibilisation risk: the anti-waste frame can obscure the political dimension of food inequality tied to post-apartheid land distribution.",
+   perche:"Relevant as a national-scale food security infrastructure and as a laboratory for transition towards food sovereignty through FGC's buy-back model.",
+   fonti:["https://www.foodforwardsa.org/"]
+  },
+  {id:19,name:"The Food Bank Singapore",geo:"Singapore",period:"2012–present",tipo:"A",
+   desc:"Singapore's only GFN-accredited foodbank: Mobile Food Pantry with 24/7 vending machine, Meals Forward, Juniors Club, The Hunger Report (which challenged the official narrative of zero food poverty). 100,000+ families reached.",
+   prim:["at","ic","in","cs"],sec:[],continuum:["assistentialist","enabling"],
+   frame:["food security","food sustainability"],
+   pos:"Redistribution / access · Waste / recovery · Consumption",
+   tags:["foodbank","Singapore","food insecurity","vending machine","digital","24/7","Juniors Club","Hunger Report","advocacy"],doc:"M",
+   alert:"Moderate amplification of distances risk: technology can remove the direct human contact between donors and recipients.",
+   perche:"Exemplary for AT (Attentiveness): the 24/7 vending machine as a care artefact eliminating time as a barrier. The Hunger Report as political attentiveness to hidden poverty.",
+   fonti:["https://foodbank.sg/programmes/","https://foodbank.sg/mobile-food-pantry/"]
+  },
+  {id:20,name:"The Food Project",geo:"Greater Boston, Massachusetts, USA",period:"1991–present",tipo:"A",
+   desc:"70+ acres of urban and suburban farms, 140 teenagers per year, 3 SNAP-accessible farmers markets, Build-a-Garden, Greenhouse. Intentional diversity of the group (Lincoln suburb vs Roxbury city). Preceded Massachusetts EBT farmers market policy.",
+   prim:["cr","sd","cs","at"],sec:["ec","in"],continuum:["transformative"],
+   frame:["food justice (explicit)","food sovereignty (partial)","right to adequate food (implicit)"],
+   pos:"Production · Distribution · Redistribution / access · Multi-node",
+   tags:["youth farming","food justice","Boston","sustainable agriculture","Roxbury","Dorchester","SNAP","EBT","CSA","Build-a-Garden"],doc:"H",
+   alert:null,
+   perche:"Exemplary for SD (Self-determination) and CR (Collective responsibility) over 34 years. The most long-standing and documented case of food justice through youth farming.",
+   fonti:["https://thefoodproject.org/"]
+  },
+  {id:21,name:"Keep Growing Detroit (KGD)",geo:"Detroit, Michigan, USA",period:"2013–present",tipo:["A","C"],
+   desc:"Urban food sovereignty organisation: 2,200+ community, family and school gardens and farms; Grown in Detroit (farmers' marketing cooperative); Detroit Black Farmer Land Fund (2020). Mission: the majority of fruit and vegetables consumed by Detroiters grown by residents.",
+   prim:["sd","ec","cs"],sec:["cr","in","pc"],continuum:["transformative"],
+   frame:["food sovereignty (explicit)","food justice (implicit)"],
+   pos:"Production · Distribution · Multi-node",
+   tags:["food sovereignty","Detroit","urban farming","Black farmers","Garden Resource Program","Grown in Detroit","land access","Detroit Black Farmer Land Fund"],doc:"H",
+   alert:"Carbon footprint of urban farming (UM study 2024): the ecological narrative is more complex than commonly assumed.",
+   perche:"The most complete case of food sovereignty as daily practice in an urban context. The Detroit Black Farmer Land Fund addresses racial land inequality as a structural cause.",
+   fonti:["https://www.detroitagriculture.net/"]
+  },
+  {id:22,name:"AgroFavela Refazenda",geo:"Paraisópolis, São Paulo, Brazil",period:"2020–present",tipo:"A",
+   desc:"Community urban garden on 900 m² in the concrete pavilion of São Paulo's largest favela (100,000+ inhabitants). 60+ species, 284 women trained in 2021. 'FAVELA É AGRO' campaign with 850 m² outdoor billboard. Partner Stop Hunger/Sodexo (80% of costs).",
+   prim:["ec","cr","sd","cs"],sec:["in"],continuum:["transformative"],
+   frame:["food sovereignty (implicit)","food security (partial)"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["favela","urban garden","Paraisópolis","São Paulo","G10 Favelas","Brazil","women empowerment","agroecology","food sovereignty","Stop Hunger"],doc:"M",
+   alert:"Care-washing risk: Sodexo partnership (multinational) risks instrumentalising the project for corporate CSR.",
+   perche:"Exemplary for EC (Ecology of care) and SD (Self-determination): autonomous urban food production in a context of extreme vulnerability. The Global South case closest to food sovereignty.",
+   fonti:["https://www.instagram.com/agrofavela_refazenda/"]
+  },
+  {id:23,name:"The Stop Community Food Centre",geo:"Toronto, Canada",period:"1982–present",tipo:["A","B"],
+   desc:"Transformed in 1998 from a traditional food bank into a Community Food Centre: integrates food bank + kitchens + urban gardens + peer advocacy + perinatal programmes + political advocacy. Inspired Community Food Centres Canada (15+ CFCs). Peer advocacy trains participants as activists.",
+   prim:["sd","ic","pc","cr","cs"],sec:[],continuum:["rights"],
+   frame:["food justice (explicit)","right to adequate food (explicit)"],
+   pos:"Redistribution / access · Consumption · Production · Multi-node",
+   tags:["community food centre","Toronto","Canada","food justice","rights-based","food bank transformed","urban agriculture","peer advocacy","Nick Saul"],doc:"H",
+   alert:null,
+   perche:"Exemplary for SD (Self-determination) and PC (Politics of care): the CFC model surpassing the food bank paradigm towards rights-based food welfare. The international benchmark for the rights-based model.",
+   fonti:["https://www.thestop.org/"]
+  },
+  {id:24,name:"Nourish Hub",geo:"London, UK (Shepherd's Bush)",period:"2022–present",tipo:"A",
+   desc:"Community kitchen in a repurposed post office designed by RCKa architects through extensive co-design. 'Donate as you dine' model: everyone eats together, each contributing what they can. Daily meals + teaching kitchen + home meal delivery.",
+   prim:["in","ic","cs","at","sd"],sec:[],continuum:["enabling"],
+   frame:["food security","food justice (implicit)","food as catalyst for social inclusion"],
+   pos:"Redistribution / access · Consumption · Waste / recovery",
+   tags:["Nourish Hub","London","UKHarvest","community kitchen","Hammersmith","Fulham","donate as you dine","RCKa","co-design"],doc:"H",
+   alert:null,
+   perche:"Exemplary for IN (Interdependence) and CS (Contextual sensitivity): Europe's most advanced community food hub using architectural and participatory design as food welfare tools.",
+   fonti:["https://nourishhub.org.uk/","https://rcka.co.uk/our-projects/nourish-hub/"]
+  },
+  {id:25,name:"Alle 8 a Cena — Scomodo",geo:"Milan, Italy (Turro / Martesana)",period:"2025–present",tipo:"A",
+   desc:"Daily community dinner (every evening at 8pm) at Scomodo's EastRiver Martesana space (1,500 m²). Single seasonal dish for €4, local ingredients, zero waste. 'First you bring people together to nourish their soul.'",
+   prim:["in","cs","cr","sd"],sec:[],continuum:["enabling"],
+   frame:["food security (partial)","food as urban community-building"],
+   pos:"Consumption",
+   tags:["Alle 8 a cena","Scomodo","Milan","Martesana","food welfare","under 30","€4 dinner","social space","EastRiver","accessibility"],doc:"L",
+   alert:"Does not reach the most vulnerable (€4 is not free). Low documentability (project launched Nov 2025).",
+   perche:"Exemplary for IN (Interdependence) and CS (Contextual sensitivity) as relational and preventive food welfare in the contemporary Milanese context.",
+   fonti:["https://www.milanotoday.it/cibo/cena-sociale-redazione-scomodo.html"]
+  },
+  {id:26,name:"ReFoodGees — Roma SalvaCibo",geo:"Rome, Italy (Esquilino)",period:"2017–present",tipo:["A","C"],
+   desc:"Recovers unsold food from Rome's street markets and redistributes it freely. 'Ai Fornelli' component: paid migrant women cook dishes from recovered food for homeless people. Refugees as co-protagonists, not merely beneficiaries.",
+   prim:["in","sd","cr","at"],sec:["cs"],continuum:["enabling"],
+   frame:["food justice (implicit)","anti-waste","intercultural integration"],
+   pos:"Redistribution / access · Waste / recovery",
+   tags:["ReFoodGees","Rome","street markets","refugees","interculturalism","anti-waste","Esquilino","volunteering","mutualism","Ai Fornelli"],doc:"M",
+   alert:null,
+   perche:"Exemplary for IN (Interdependence) and CR (Collective responsibility): the Italian case that most explicitly uses food to build cultural interdependence.",
+   fonti:["https://refoodgees.org/"]
+  },
+  {id:27,name:"Incredible Edible Todmorden",geo:"Todmorden, UK → 700+ groups globally",period:"2008–present",tipo:["A","B"],
+   desc:"Guerrilla gardening movement across 70 public sites without permission. 'If you eat, you're in.' 57% of residents started growing food. Pam Warhurst TED talk (3M+ views). Global network of 700+ groups. Replicable 6-step toolkit.",
+   prim:["ec","sd","cr","at","in"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (implicit)","food commons"],
+   pos:"Production · Consumption",
+   tags:["incredible edible","Todmorden","guerrilla gardening","propaganda gardening","public spaces","UK","community growing","three spinning plates","toolkit"],doc:"H",
+   alert:"Decontextualisation risk: the model depends on specific local conditions not easily replicable.",
+   perche:"Exemplary for EC (Ecology of care) and CR (Collective responsibility) as radical food commons practice in urban public space.",
+   fonti:["https://incredible-edible-todmorden.co.uk/","https://en.wikipedia.org/wiki/Incredible_Edible"]
+  },
+  {id:28,name:"Beacon Food Forest",geo:"Beacon Hill, Seattle, Washington, USA",period:"2012–present",tipo:"A",
+   desc:"The largest public food forest in the USA: 7 acres of permacultural agroforestry on Seattle Public Utilities land. Open harvest for anyone. Private P-Patch plots. Indigenous medicinal garden 'sust'aljiXwal'. 'We work to dismantle an unjust food system rooted in white supremacy.'",
+   prim:["ec","cs","sd","in","cr"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (implicit)","food justice (explicit)","food commons"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["food forest","Seattle","permaculture","agroforestry","Beacon Hill","public land","open harvest","food commons","food justice","Indigenous"],doc:"H",
+   alert:"Romanticisation risk: the food forest model requires years of investment before producing significant food.",
+   perche:"Exemplary for EC (Ecology of care) and SD (Self-determination): the most documented public-land urban food commons in the USA.",
+   fonti:["https://www.beaconfoodforest.org/","https://en.wikipedia.org/wiki/Beacon_Food_Forest"]
+  },
+  {id:29,name:"Soul Fire Farm",geo:"Grafton, New York, USA",period:"2006–present",tipo:"A",
+   desc:"A 72-acre BIPOC-centric farm. Sliding-scale CSA (Ujaama model). 350+ BIPOC farmers trained. Book 'Farming While Black' (James Beard Award 2019). Uses the term 'food apartheid' instead of 'food desert' — a fundamental theoretical and political choice.",
+   prim:["pc","at","sd","cr","ec"],sec:[],continuum:["transformative","rights"],
+   frame:["food justice (explicit)","food sovereignty (explicit, Via Campesina)","right to adequate food (implicit)"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["Soul Fire Farm","Leah Penniman","Black farmer","food apartheid","food sovereignty","BIPOC","Farming While Black","sliding scale CSA","reparations"],doc:"H",
+   alert:"Decontextualisation risk: works within the specific context of Black liberation in the USA with its history of enslavement and USDA discrimination.",
+   perche:"Exemplary for PC (Politics of care) and SD (Self-determination): the farm as a political community bastion integrating production, training, advocacy and mutual aid.",
+   fonti:["https://www.soulfirefarm.org/","https://en.wikipedia.org/wiki/Soul_Fire_Farm"]
+  },
+  {id:30,name:"SOUL Food Project EU",geo:"Europe (Erasmus+ transnational)",period:"2023–2025",tipo:"A",
+   desc:"Erasmus+ project using culinary skills as a tool for social and professional integration of migrant women. Modular curriculum of food and digital literacy. Partners across multiple EU countries.",
+   prim:["in","sd","cs","ic"],sec:[],continuum:["enabling"],
+   frame:["food security (implicit)","integration","empowerment"],
+   pos:"Consumption · Education",
+   tags:["Soul Food Project","Erasmus+","migrant women","integration","adult education","intercultural cooking","empowerment","digital","Europe"],doc:"L",
+   alert:"NOTE: soulfoodproject.eu (Erasmus+) must be distinguished from Soul Food Project Indianapolis and Soul Food Project Massachusetts USA.",
+   perche:"Exemplary for IN (Interdependence) and SD (Self-determination) as a European programme using food for migrant women's integration and empowerment.",
+   fonti:["https://www.soulfoodproject.eu/"]
+  },
+  {id:31,name:"Botildenborg — Urban Farm & Stadsbruk",geo:"Rosengård, Malmö, Sweden",period:"2011–present",tipo:"A",
+   desc:"Urban farm in Malmö's most marginalised neighbourhood (88% residents born abroad). Stadsbruk: Europe's first incubator for urban farmers. Living Lab partnership with SLU Alnarp. Cook, Eat and Talk: harvest + cook + eat + dialogue.",
+   prim:["cs","ic","in","ec","sd"],sec:[],continuum:["enabling"],
+   frame:["food security (partial)","social gastronomy","integration"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["Botildenborg","Malmö","Rosengård","Sweden","urban farming","Stadsbruk","incubator","migrants","training","social enterprise","Lena Friblick"],doc:"H",
+   alert:null,
+   perche:"Exemplary for CS (Contextual sensitivity) and IN (Interdependence): Nordic model of social enterprise using food and farming to build integration and employment for migrants.",
+   fonti:["https://www.botildenborg.se/"]
+  },
+  {id:32,name:"Indigenous Food Lab (IFL) — NĀTIFS",geo:"Minneapolis, Minnesota, USA",period:"2017–present",tipo:"A",
+   desc:"Professional Indigenous cuisine centre founded by Sean Sherman (Oglala Lakota Sioux). Restaurant Owamni (James Beard Best New Restaurant 2022). Curriculum of Indigenous foodways. 'By reconnecting Native peoples to their traditional foods, we can heal many of the health disparities caused by colonialism.'",
+   prim:["pc","cr","sd","ec","at"],sec:[],continuum:["transformative","rights"],
+   frame:["food sovereignty (explicit, radical)","food justice (implicit)","right to culturally appropriate food"],
+   pos:"Production · Consumption · Redistribution / access · Education",
+   tags:["Indigenous Food Lab","NATIFS","Sean Sherman","Minneapolis","Oglala Lakota","Native American","food sovereignty","Indigenous foodways","decolonisation","Owamni"],doc:"H",
+   alert:"Cultural appropriation risk: Indigenous foodways must not become a 'gastronomic trend'.",
+   perche:"Exemplary for PC (Politics of care) and SD (Self-determination): radically decolonial Indigenous food sovereignty practice. The deepest case in the Atlas on the colonial dimension of the food system.",
+   fonti:["https://natifs.org/","https://en.wikipedia.org/wiki/Indigenous_Food_Lab"]
+  },
+  {id:33,name:"The Okra Project",geo:"New York City → national",period:"2018–present",tipo:"A",
+   desc:"Mutual aid collective sending Black Trans chefs into the homes of Black Trans people to cook free, culturally specific home meals. 'This is not a soup kitchen or a bread line.' The meal cooked by someone who 'looks, loves and lives like you'.",
+   prim:["at","cs","sd","pc","cr"],sec:[],continuum:["transformative"],
+   frame:["food justice (explicit)","food security (implicit)","radical care"],
+   pos:"Redistribution / access · Consumption",
+   tags:["Okra Project","Black Trans","mutual aid","NYC","chef","home meals","radical care","African diaspora","food insecurity","TGNC"],doc:"H",
+   alert:"CRITICAL ALERT — GOVERNANCE: Dominique Morgan (ED 2021–2022) indicted for embezzlement of $163k. Must be named without using it to invalidate the mission.",
+   perche:"Exemplary for AT (Attentiveness) and SD (Self-determination): radical care and mutual aid practice for the Black Trans community. The most radically intersectional case in the Atlas.",
+   fonti:["https://www.theokraproject.com/","https://en.wikipedia.org/wiki/The_Okra_Project"]
+  },
+  {id:34,name:"Queer Soup Night",geo:"Brooklyn, NY → 14+ cities USA/Canada",period:"2017–present",tipo:"A",
+   desc:"Network of queer supper clubs as fundraisers for local progressive organisations. Queer chefs cook soup; entry with suggested donation ($10–20); 100% of proceeds to a locally chosen organisation. Alcohol-free format. 'We are strongest when we are joyful and generous, together.'",
+   prim:["cr","cs","in","at","sd"],sec:[],continuum:["transformative"],
+   frame:["food justice (implicit)","community building"],
+   pos:"Consumption · Redistribution / access (via fundraising)",
+   tags:["Queer Soup Night","Liz Alpern","Brooklyn","queer","supper club","fundraiser","resistance","soup","LGBTQ+","gentle resistance"],doc:"H",
+   alert:null,
+   perche:"Exemplary for CR (Collective responsibility) and IN (Interdependence): joy and pleasure as components of political care. 'Joyful generosity' as a practice of queer resistance.",
+   fonti:["https://www.queersoupnight.com/"]
+  },
+  {id:35,name:"Mariposas Rebeldes",geo:"Atlanta, Georgia, USA (Muscogee land)",period:"2020–present",tipo:"A",
+   desc:"Non-hierarchical QTIPOC collective of gardening and land stewardship guided by Indigenous and Latinx leadership. Community garden (100+ participants), pre-colonial workshops (nixtamalisation, foraging, mushroom cultivation), Dandelion/Cambalache festival as gift economy.",
+   prim:["pc","cr","ec","sd","in"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (explicit)","food justice (explicit)"],
+   pos:"Production · Consumption",
+   tags:["Mariposas Rebeldes","Atlanta","QTIPOC","queer","Latinx","Indigenous","garden","food sovereignty","pre-colonial techniques","anti-capitalist","Muscogee"],doc:"L",
+   alert:"Limited documentability: informal collective without a stable website. The 2020 eviction shows the vulnerability of not owning land.",
+   perche:"Exemplary for PC (Politics of care) and EC (Ecology of care): radically intersectional food sovereignty practice linking queer identity, Indigenous heritage and anti-capitalism.",
+   fonti:["https://mariposasrebeldes.org/","https://atmos.earth/mariposas-rebeldes-growing-food-sovereignty-for-queer-latine-and-indigenous-people-in-atlanta/"]
+  },
+  {id:36,name:"Tribal Elder Food Box Program",geo:"Wisconsin, USA (11 Tribal Nations)",period:"2021–present",tipo:"A",
+   desc:"Monthly culturally specific food boxes for tribal elders (55+): bison, hand-harvested wild rice, seasonal fresh produce, Indigenous shelf-stable products. 'Whenever you eat an Indigenous food, it speaks to your DNA.' GLIFC retains decision-making control.",
+   prim:["cs","cr","ic","sd","in"],sec:[],continuum:["rights"],
+   frame:["food sovereignty (explicit)","right to culturally appropriate food"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["Tribal Elder Food Box","Wisconsin","Oneida","Native American","Great Lakes","culturally specific food","Indigenous elders","food sovereignty","GLIFC","food as medicine"],doc:"H",
+   alert:"Federal funding uncertainty 2025 (Trump USDA cuts). Structural dependency is a concern.",
+   perche:"Exemplary for CS (Contextual sensitivity) and IC (Institutionalisation): the case most advanced in institutionalising Indigenous food sovereignty as a public service. 'Food as medicine.'",
+   fonti:["https://feedingamericawi.org/our-programs/tribal/","https://cias.wisc.edu/tribal-elder-food-box-program/"]
+  },
+  {id:37,name:"L'Otto in Cucina 2.0",geo:"Rome, Italy (Municipio VIII)",period:"2025",tipo:"A",
+   desc:"Municipal initiative (Rome's Municipio VIII) on food education and food welfare, disseminating recipes and food resources through the Municipality's social media channels.",
+   prim:["ic","cs","at","in"],sec:[],continuum:["assistentialist","enabling"],
+   frame:["food security (implicit)","food education"],
+   pos:"Consumption · Redistribution / access (information)",
+   tags:["L'Otto in Cucina","Municipio VIII","Rome","food welfare","recipes","food education","institutional","social media"],doc:"L",
+   alert:"CASE SHEET TO COMPLETE before publication — only Instagram as source. Digital divide: social media does not reach the most vulnerable.",
+   perche:"Potentially exemplary for IC (Institutionalisation) as municipal digital food welfare communication. To be completed.",
+   fonti:["https://www.instagram.com/p/DSZxUDjjCK0/"]
+  },
+  {id:38,name:"Feminist Agroecology (framework)",geo:"Transnational",period:"2019–present",tipo:["B","C"],
+   desc:"Theoretical-political framework integrating agroecology + intersectional feminisms + food sovereignty. Roots: La Via Campesina (2001), Nyéleni Declaration (2007). 'Feminist practices nurture a spiderweb of interdependencies.' Rural women as knowledge-keepers.",
+   prim:["at","cr","ec","pc","in"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (explicit)","food justice (explicit, intersectional)","right to adequate food (with gender lens)"],
+   pos:"Production · Multi-node",
+   tags:["feminist agroecology","intersectional","food sovereignty","La Via Campesina","gender","decolonial","ecofeminism","rural women","seeds","knowledge keeper","care work","Nyéleni"],doc:"H",
+   alert:"CASE SHEET TO COMPLETE: Instagram source unverified. Compiled on the basis of academic literature.",
+   perche:"Exemplary for AT (Attentiveness) and EC (Ecology of care) as a theoretical framework illuminating gender, care and power dimensions in agroecology.",
+   fonti:["https://agroecologynow.net/linking-food-and-feminisms/","https://www.mdpi.com/2071-1050/13/20/11244"]
+  },
+  {id:39,name:"Migre Rete",geo:"Italy (location to verify)",period:"To verify",tipo:"A",
+   desc:"Network or project in the field of food education, empowerment and/or food integration for migrants/refugees in Italy. DRAFT SHEET — to be completed with primary source.",
+   prim:["sd","cs","cr"],sec:["in"],continuum:["enabling"],
+   frame:["food justice (to verify)","migrant empowerment"],
+   pos:"To verify",
+   tags:["Migre Rete","migrants","Italy","network","education","empowerment","food","integration"],doc:"L",
+   alert:"CRITICAL METHODOLOGICAL ALERT: draft sheet to be completed with primary source. Content not verified.",
+   perche:"Provisionally included in the Atlas in the Education/Empowerment for migrants category. To assess whether it adds distinct value relative to ReFoodGees and Soul Food Project EU.",
+   fonti:["https://www.instagram.com/p/DT5nKTGAWpJ/"]
+  },
+  {id:40,name:"Fattoria del Dono",geo:"San Lazzaro di Savena (BO), Italy",period:"2021–2025 (inaugurated Apr 2025)",tipo:"A",
+   desc:"10-hectare agri-park donated by Stella Corazza to the Municipality. Renovated barn. ATI: Campi Aperti + Agriverde + DEAFAL + Cittàcampagna. CSA, Recovery College in agriculture, inclusion of vulnerable workers, connection with Emporio Amalio.",
+   prim:["ec","sd","cr","cs","in"],sec:[],continuum:["enabling","transformative"],
+   frame:["food security (implicit, via Emporio Amalio)","food sovereignty (implicit, via CSA)","social inclusion welfare"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["Fattoria del Dono","San Lazzaro di Savena","Bologna","donation","agri-park","community farm","agroecology","CSA","social inclusion","Campi Aperti"],doc:"M",
+   alert:"Inaugurated only April 2025: concrete activities in early stages. To be updated with impact data.",
+   perche:"Exemplary for EC (Ecology of care) and CR (Collective responsibility): Italian community agroecological farm model integrating private donation + public funding + third sector.",
+   fonti:["https://www.comune.sanlazzaro.bo.it/argomenti/sviluppo-sostenibile/rigenerare-la-terra-per-rigenerare-la-citta-la-fattoria-del-dono","https://consorziolarcolaio.it/2025/03/14/fattoria-del-dono-modello-di-agricoltura-e-comunita/"]
+  },
+  {id:41,name:"Andria Food Policy Hub (AFPH)",geo:"Andria (BAT), Puglia, Italy",period:"2023–present",tipo:"A",
+   desc:"Physical food governance hub in the repurposed San Francesco Cloister, financed by Puglia Region ERDF funds. Spazio Terre APS. Food Council, unanimously approved food charter, farmers market, GAS (solidarity purchasing groups), 800+ students/year.",
+   prim:["ic","rs","cs","in","ec"],sec:[],continuum:["enabling"],
+   frame:["local food policy","food sovereignty (implicit, via short supply chain)","food security (partial)"],
+   pos:"Production · Redistribution / access · Consumption · Policy / governance",
+   tags:["Andria","Food Policy Hub","Spazio Terre","Puglia","San Francesco Cloister","ERDF","local food policy","food education","GAS","farmers market","Food Council"],doc:"H",
+   alert:"Very recent project (launched 2023–2024). Dependency on ERDF funding and political continuity.",
+   perche:"Exemplary for IC (Institutionalisation) and CS (Contextual sensitivity): local food policy model for a medium-sized Italian city. Shows that a structured food policy can emerge in a non-major municipality.",
+   fonti:["https://osservatoriofoodpolicy.it/esperienza/food-policy-hub-di-andria/"]
+  },
+  {id:42,name:"Rete Semi Rurali (RSR)",geo:"Scandicci (FI) → national → ECLLD",period:"7+ years",tipo:"A",
+   desc:"Network of 42 associations for the protection of agricultural biodiversity. Evolutionary Participatory Selection (SEP). '700 grains' pasta project, SELIANTHUS. Tuscany Region recognition. 'Seeds as a collective biological and cultural heritage to be stewarded against industrial standardisation.'",
+   prim:["ec","cr","rs","sd","in"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (explicit)","ecology of food"],
+   pos:"Production (seeds and varieties) · Short agroecological supply chains",
+   tags:["Rete Semi Rurali","RSR","seeds","biodiversity","peasant farming","seed saving","seed custodians","Let's Liberate Diversity","SEP","700 grains pasta"],doc:"H",
+   alert:null,
+   perche:"Exemplary for EC (Ecology of care) and RS (Responsiveness): network for agricultural biodiversity as a commons. The Italian case most radically interrogating the industrial seed system.",
+   fonti:["https://rsr.bio/","https://www.semirurali.net/"]
+  },
+  {id:43,name:"Cresco — CSA Valle Varaita",geo:"Valle Varaita (Cuneo), Piedmont, Italy",period:"2020–present",tipo:"A",
+   desc:"CSA in Valle Varaita on 7,500 m² of gardens between 500 and 900 metres altitude. 85 member families. Annual auction (price emerges from the community). 120 rotational varieties. Partner chef Juri Chiotti. 'Scaling out, not up': multiply models rather than growing one.",
+   prim:["cr","cs","ec","sd","in"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (implicit)","solidarity economy"],
+   pos:"Production · Consumption",
+   tags:["Cresco","CSA","Valle Varaita","Piedmont","Cuneo","mountain","Occitan","agroecology","85 families","annual auction","Juri Chiotti","villages"],doc:"M",
+   alert:"The CSA model does not reach families in acute food insecurity — upfront annual payment is a structural economic barrier.",
+   perche:"Exemplary for CR (Collective responsibility) and EC (Ecology of care): mountain CSA with an anti-capitalist vocation in a marginal context.",
+   fonti:["https://noisiamocresco.it/"]
+  },
+  {id:44,name:"CORE — Cultivating Resilience (Burkina Faso)",geo:"Pabré / Ouagadougou, Burkina Faso",period:"ongoing",tipo:"A",
+   desc:"Two Italian development cooperation projects for peri-urban food security: CORE (WeWorld + DEAFAL, ~200 families/1,370 people in Pabré) and 'Feeding the City' (ACRA, 42 months 2023–2026). Drip irrigation, agricultural training.",
+   prim:["rs","sd","cs","in","ec"],sec:[],continuum:["enabling"],
+   frame:["food security (explicit, SDG2)","right to adequate food (implicit)"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["CORE","Burkina Faso","Ouagadougou","Pabré","WeWorld","ACRA","AICS","development cooperation","urban agriculture","resilience","internally displaced","women","MUFPP"],doc:"M",
+   alert:"Burkina Faso in deep political crisis since 2022 (double military coup). Operational context extremely difficult.",
+   perche:"Exemplary for RS (Responsiveness) and CS (Contextual sensitivity): food welfare in the Global South as capacity-building (not charity) for vulnerable families in humanitarian crisis.",
+   fonti:["https://www.weworld.it/news-e-storie/approfondimenti/burkina-faso-il-nostro-impegno-per-la-sicurezza-alimentare","https://www.acra.it/notizie/news-dai-paesi/nutrire-citta-burkina"]
+  },
+  {id:45,name:"Jigeenyi — Social Bar & Restaurant",geo:"Turin, Italy (Borgo Dora / Balon)",period:"2021–present",tipo:"A",
+   desc:"Arci club with a social bar-restaurant, African and Afro-descendant cuisines. 20+ African and Middle Eastern women trained (Senegal, Congo, Morocco, Gambia, Colombia, Iran). 'Jigeenyi' = 'Women' in Wolof. Renken ETS project with roots in Casamance.",
+   prim:["in","cr","at","sd","cs"],sec:[],continuum:["enabling"],
+   frame:["food justice (implicit, decolonial)","social gastronomy","women's empowerment"],
+   pos:"Consumption (restaurant) · Redistribution / access (training and employment)",
+   tags:["Jigeenyi","Renken ETS","Turin","Balon","Borgo Dora","African women","African cuisine","women's empowerment","Wolof","Senegal","decolonial","transfeminist"],doc:"H",
+   alert:null,
+   perche:"Exemplary for IN (Interdependence) and AT (Attentiveness): decolonial social gastronomy valorising African cuisines as heritage and a tool for migrant women's labour dignity in Turin.",
+   fonti:["https://www.renken.it/jigeenyi/","https://www.editorialedomani.it/idee/cultura/torino-jigeenyi-ristorante-africano-porta-palazzo-lavoro-afrodiscendenti-chef-cibo-domani-bph2uyzn"]
+  },
+  {id:46,name:"Seikatsu Club Consumers Co-operative",geo:"Tokyo → 21 Japanese prefectures",period:"1965–present",tipo:"A",
+   desc:"Federation of 33 co-operatives (307,000–400,000 members, 90%+ women) organised in han units (8–10 families). Co-ownership of farms, 790 audits by 6,500 members. Workers' collectives. 140+ elected representatives in local assemblies. Right Livelihood Award 1989.",
+   prim:["in","ic","cr","sd","ec"],sec:[],continuum:["transformative","rights"],
+   frame:["food sovereignty (explicit)","solidarity economy","'autonomous control of our lives'"],
+   pos:"Production (co-ownership) · Redistribution / access · Consumption · Welfare",
+   tags:["Seikatsu Club","Japan","consumer co-operative","women","han","collective purchasing","organic","no-GMO","workers collective","welfare","local elections","Teikei","Right Livelihood Award"],doc:"H",
+   alert:"Economic barrier (annual fee $1,000–2,000) excludes the poorest families. Japanese cultural context not easily replicable.",
+   perche:"Exemplary for IN (Interdependence) and CR (Collective responsibility): the most advanced documented food co-operative system in the world. Demonstrates that food welfare is inseparable from welfare as a whole.",
+   fonti:["https://rightlivelihood.org/the-change-makers/find-a-laureate/seikatsu-club-consumers-cooperative/","https://en.wikipedia.org/wiki/Seikatsu_Club_Consumers%27_Co-operative_Union"]
+  },
+  {id:47,name:"Belo Horizonte Food Security Programme",geo:"Belo Horizonte, Brazil",period:"1993–present",tipo:"A",
+   desc:"Integrated municipal food security system with 20+ programmes: Restaurantes Populares (meal from R$0.75–3, open to ALL citizens), free public space at farmers markets, urban gardens, public procurement from small producers. Results: infant mortality -60%, malnutrition -75%. Future Policy Award 2009.",
+   prim:["ic","pc","rs","cr","at"],sec:[],continuum:["rights"],
+   frame:["right to adequate food (explicit and founding)","food security (explicit)","local food policy"],
+   pos:"Production · Redistribution / access · Consumption",
+   tags:["Belo Horizonte","Brazil","food security","right to food","Restaurante Popular","public canteen","family farming","public procurement","Zero Hunger","Lula","Patrus Ananias","Future Policy Award 2009"],doc:"H",
+   alert:"Political vulnerability: Bolsonaro government suspended many programmes (2019–2022).",
+   perche:"Exemplary for IC (Institutionalisation): the world's most advanced and documented municipal food policy. 30 years. 'Food as a citizenship right' as democratic obligation of government.",
+   fonti:["https://www.futurepolicy.org/food-and-water/belo-horizontes-food-security-policy/","https://www.nycfoodpolicy.org/popular-restaurants-belo-horizonte-urban-food-policy-snapshot/"]
+  },
+  {id:48,name:"Community Shop / Social Supermarket UK",geo:"UK (100+ locations)",period:"2013–present",tipo:"A",
+   desc:"'Social supermarket' / 'community pantry' model: surplus food at heavily discounted prices (30% of normal price or less) for low-income people through membership. TBBT (Manchester), FareShare, Solidarity Supermarket (Waltham Forest). Surpasses the traditional food bank while preserving the dignity of choice.",
+   prim:["at","rs","sd","cr","ic"],sec:[],continuum:["assistentialist","enabling"],
+   frame:["food security (explicit)","waste reduction"],
+   pos:"Redistribution / access · Consumption",
+   tags:["Community Shop","Social Supermarket","UK","TBBT","The Bread and Butter Thing","FareShare","food surplus","food waste","food poverty","membership","30% price","Solidarity Supermarket"],doc:"H",
+   alert:"Structural dependency on industrial surplus can incentivise overproduction. Food often processed and nutrient-poor. Does not challenge structural causes of food poverty.",
+   perche:"Exemplary for AT (Attentiveness) and SD (Self-determination): the social supermarket as a design of dignity between food bank (stigma) and normal supermarket (market).",
+   fonti:["https://www.sustainweb.org/good-food-enterprise/models-of-community-food-projects/","https://www.london.gov.uk/programmes-strategies/communities-and-social-justice/food/our-projects-food-london/social-supermarkets"]
+  },
+  {id:49,name:"Arvaia — CSA Co-operative",geo:"Bologna, Italy (Parco Città Campagna)",period:"2013–present",tipo:"A",
+   desc:"Italy's first and largest CSA: 320+ members, 47 hectares of municipal land on lease, 75+ varieties. Annual auction. Integrated supply chain: Arvaia grain → Cenacchi mill → Iris pasta co-op → Brisa bakery. 'We also distribute the ugly vegetables.' NUMES (first academic study of Italian CSAs).",
+   prim:["in","cs","ec","cr","sd"],sec:[],continuum:["transformative"],
+   frame:["food sovereignty (explicit)","solidarity economy"],
+   pos:"Production · Processing · Consumption",
+   tags:["Arvaia","Bologna","CSA","co-operative","municipal land","ancient grains","organic","auction","no waste","processing","flour","pasta","bread","NUMES","Campi Aperti","Italy's first CSA"],doc:"H",
+   alert:null,
+   perche:"Exemplary for IN (Interdependence) and EC (Ecology of care): Italy's first CSA and model of integrated short supply chain (production + processing + consumption) among members.",
+   fonti:["https://www.arvaia.it/","https://altreconomia.it/buona-semina-csa-moltiplicano/"]
+  }
+];
+
+let filterP = 'all', filterT = 'all', filterC = 'all', searchQ = '';
+
+function getTipo(c) { return Array.isArray(c.tipo) ? c.tipo : [c.tipo]; }
+
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+  let count = 0;
+
+  cases.forEach(c => {
+    const tipi = getTipo(c);
+    const matchP = filterP === 'all' || c.prim.includes(filterP) || c.sec.includes(filterP);
+    const matchT = filterT === 'all' || tipi.includes(filterT);
+    const matchC = filterC === 'all' || c.continuum.includes(filterC);
+    const q = searchQ.toLowerCase();
+    const matchQ = !q || c.name.toLowerCase().includes(q) || c.geo.toLowerCase().includes(q)
+      || c.desc.toLowerCase().includes(q) || c.tags.join(' ').toLowerCase().includes(q);
+    if (!matchP || !matchT || !matchC || !matchQ) return;
+    count++;
+
+    const typeBadges = tipi.map(t => `<span class="badge badge-${t}">${TL[t]}</span>`).join('');
+    const primTags = c.prim.map(p => {
+      let cls = 'primary';
+      if(p==='ec') cls+=' p-ec';
+      if(p==='ic') cls+=' p-ic';
+      return `<span class="ptag ${cls}">${PL[p]}</span>`;
+    }).join('');
+    const secTags = c.sec.map(p => `<span class="ptag">${PL[p]}</span>`).join('');
+    const contTags = c.continuum.map(k => `<span class="cont-tag">${CONTINUUM_LABELS[k]}</span>`).join('');
+    const alertHtml = c.alert ? `<div class="alert-row">${c.alert.substring(0,140)}${c.alert.length>140?'…':''}</div>` : '';
+
+    const div = document.createElement('div');
+    div.className = 'case-card';
+    div.dataset.id = c.id;
+    div.innerHTML = `
+      <div class="card-top">
+        <span class="card-num">#${String(c.id).padStart(2,'0')}</span>
+        <div class="card-badges">${typeBadges}</div>
+      </div>
+      <div class="card-name">${c.name}</div>
+      <div class="card-geo">${c.geo} · ${c.period}</div>
+      <div class="card-desc">${c.desc.substring(0,200)}${c.desc.length>200?'…':''}</div>
+      <div class="card-section-label">CE Principles</div>
+      <div class="tag-row">${primTags}${secTags}</div>
+      <div class="card-section-label">Continuum</div>
+      <div class="continuum-row">${contTags}</div>
+      ${alertHtml}
+      <div class="card-footer">
+        <div class="frame-tags">${c.frame.slice(0,2).map(f=>`<span class="frame-tag">${f}</span>`).join('')}</div>
+        <span class="doc-badge doc-${c.doc}">Doc ${c.doc}</span>
+      </div>`;
+    div.addEventListener('click', () => openDetail(c.id));
+    grid.appendChild(div);
+  });
+
+  document.getElementById('result-count').textContent = `${count} cases`;
+  const parts = [];
+  if(filterP !== 'all') parts.push(PL[filterP]);
+  if(filterT !== 'all') parts.push(`type ${filterT}`);
+  if(filterC !== 'all') parts.push(CONTINUUM_LABELS[filterC]);
+  if(searchQ) parts.push(`"${searchQ}"`);
+  document.getElementById('filter-desc').textContent = parts.length ? '· ' + parts.join(', ') : '· no active filters';
+
+  if(count === 0) {
+    grid.innerHTML = '<div class="no-results">No cases match the selected filters.</div>';
+  }
+}
+
+function openDetail(id) {
+  const c = cases.find(x => x.id === id);
+  if (!c) return;
+  const tipi = getTipo(c);
+  const principleRows = [
+    ...c.prim.map(p => `<div class="p-row"><span class="p-pill prim">★ ${PL[p]}</span><span class="p-note">Primary principle</span></div>`),
+    ...c.sec.map(p => `<div class="p-row"><span class="p-pill sec">${PL[p]}</span><span class="p-note">Secondary principle</span></div>`)
+  ].join('');
+  const conts = c.continuum.map(k=>`<span class="cont-tag">${CONTINUUM_LABELS[k]}</span>`).join(' ');
+  const fontiHtml = c.fonti.map(f=>`<a href="${f}" target="_blank">${f}</a>`).join('<br>');
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-num">CASE #${String(c.id).padStart(2,'0')} · ${tipi.map(t=>TL[t]).join(' + ')}</div>
+    <div class="detail-name">${c.name}</div>
+    <div class="detail-geo">${c.geo} · ${c.period}</div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Description</div>
+      <div class="detail-body">${c.desc}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Ethics of Care Principles</div>
+      <div class="principle-grid">${principleRows}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Continuum position</div>
+      <div class="detail-body">${conts}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Food theoretical frame</div>
+      <div class="detail-body">${c.frame.join(' · ')}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Position in the food chain</div>
+      <div class="detail-body">${c.pos}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Why in the Atlas</div>
+      <div class="detail-body">${c.perche}</div>
+    </div>
+
+    ${c.alert ? `<div class="detail-section">
+      <div class="detail-section-title">Critical alerts</div>
+      <div class="alert-row" style="margin-top:0">${c.alert}</div>
+    </div>` : ''}
+
+    <div class="detail-section">
+      <div class="detail-section-title">Tags</div>
+      <div class="tag-row">${c.tags.map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Documentability</div>
+      <div class="detail-body"><span class="doc-badge doc-${c.doc}" style="font-size:12px">Doc ${c.doc}</span></div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Sources</div>
+      <div class="detail-body">${fontiHtml}</div>
+    </div>`;
+
+  document.getElementById('detail-overlay').classList.add('open');
+  document.getElementById('detail-panel').scrollTop = 0;
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+}
+
+document.getElementById('filter-principi').addEventListener('click', e => {
+  const btn = e.target.closest('.fb');
+  if (!btn) return;
+  document.querySelectorAll('#filter-principi .fb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterP = btn.dataset.filter;
+  renderCards();
+});
+document.getElementById('filter-tipo').addEventListener('click', e => {
+  const btn = e.target.closest('.fb');
+  if (!btn) return;
+  document.querySelectorAll('#filter-tipo .fb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterT = btn.dataset.tipo;
+  renderCards();
+});
+document.getElementById('filter-cont').addEventListener('click', e => {
+  const btn = e.target.closest('.fb');
+  if (!btn) return;
+  document.querySelectorAll('#filter-cont .fb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterC = btn.dataset.cont;
+  renderCards();
+});
+document.getElementById('search-input').addEventListener('input', e => {
+  searchQ = e.target.value.trim();
+  renderCards();
+});
+document.getElementById('detail-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('detail-overlay')) closeDetail();
+});
+
+renderCards();
+</script>
+
+<div id="tweaks-root"></div>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "fontPairing": "barlow",
+  "fontSize": 14
+}/*EDITMODE-END*/;
+
+const FONT_PAIRINGS = {
+  barlow: {
+    label: "Barlow",
+    sans: "'Barlow', sans-serif",
+    serif: "'Barlow Semi Condensed', sans-serif",
+    mono: "'Barlow Condensed', sans-serif"
+  },
+  original: {
+    label: "Original (DM)",
+    sans: "'Instrument Sans', sans-serif",
+    serif: "'DM Serif Display', serif",
+    mono: "'DM Mono', monospace"
+  },
+  fira: {
+    label: "Fira Sans",
+    sans: "'Fira Sans', sans-serif",
+    serif: "'Fira Sans', sans-serif",
+    mono: "'Fira Sans', sans-serif"
+  },
+  manrope: {
+    label: "Manrope",
+    sans: "'Manrope', sans-serif",
+    serif: "'Manrope', sans-serif",
+    mono: "'Barlow Condensed', sans-serif"
+  }
+};
+
+function applyFonts(pairing, size) {
+  const p = FONT_PAIRINGS[pairing] || FONT_PAIRINGS.barlow;
+  const root = document.documentElement;
+  root.style.setProperty('--font-sans', p.sans);
+  root.style.setProperty('--font-serif', p.serif);
+  root.style.setProperty('--font-mono', p.mono);
+  root.style.fontSize = size + 'px';
+}
+
+function TweaksApp() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    applyFonts(tweaks.fontPairing, tweaks.fontSize);
+  }, [tweaks.fontPairing, tweaks.fontSize]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Typography">
+        <TweakSelect
+          label="Font pairing"
+          value={tweaks.fontPairing}
+          options={Object.entries(FONT_PAIRINGS).map(([k, v]) => ({ value: k, label: v.label }))}
+          onChange={v => setTweak('fontPairing', v)}
+        />
+        <TweakSlider
+          label="Base font size"
+          value={tweaks.fontSize}
+          min={11}
+          max={18}
+          step={0.5}
+          unit="px"
+          onChange={v => setTweak('fontSize', v)}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+const tweaksRoot = ReactDOM.createRoot(document.getElementById('tweaks-root'));
+tweaksRoot.render(<TweaksApp />);
+</script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
